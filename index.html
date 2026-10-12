@@ -160,6 +160,43 @@ table.urut thead th{position:sticky;top:0;background:var(--permukaan);cursor:poi
 table.urut thead th:first-child{z-index:2}
 table.urut thead th.urut-naik::after{content:" ▲"}table.urut thead th.urut-turun::after{content:" ▼"}
 table.urut tbody tr{cursor:pointer}
+/* tinjau kurikulum */
+.tj-alat{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.tj-tbl{border:1px solid var(--garis);background:var(--permukaan);color:var(--teks);border-radius:9px;padding:8px 12px;font-size:13px;font-weight:600;cursor:pointer}
+.tj-tbl.on{background:var(--hijau2);border-color:var(--hijau);color:var(--hijau)}
+.tj-tbl.utama{background:var(--hijau);border-color:var(--hijau);color:#fff}
+.tj-ringkas{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:14px 0}
+.tj-ringkas div{background:var(--permukaan);border-radius:10px;padding:10px}
+.tj-ringkas small{display:block;color:var(--redup);font-size:11.5px}
+.tj-ringkas b{font-size:18px}
+@media (max-width:480px){.tj-ringkas{grid-template-columns:repeat(2,1fr)}}
+.tj-daftar{background:var(--permukaan);border-radius:12px;padding:12px 14px;margin-bottom:16px}
+.tj-daftar a{display:flex;justify-content:space-between;gap:10px;color:var(--teks);text-decoration:none;padding:6px 0;border-bottom:1px solid var(--garis);font-size:13.5px;cursor:pointer}
+.tj-daftar a:last-child{border:0}
+.tj-daftar a span{color:var(--redup);white-space:nowrap}
+details.tj-modul{border:1px solid var(--garis);border-radius:12px;margin-bottom:12px;overflow:hidden}
+details.tj-modul > summary{list-style:none;cursor:pointer;padding:14px;background:var(--permukaan);display:flex;gap:12px;align-items:center}
+details.tj-modul > summary::-webkit-details-marker,details.tj-bab > summary::-webkit-details-marker{display:none}
+.tj-no{flex:0 0 34px;height:34px;border-radius:50%;background:var(--hijau2);color:var(--hijau);display:grid;place-items:center;font-weight:700}
+.tj-sum{flex:1;min-width:0}
+.tj-sum div{color:var(--redup);font-size:12.5px}
+.tj-panah{color:var(--redup);transition:transform .15s}
+details[open] > summary .tj-panah{transform:rotate(90deg)}
+details.tj-bab{border-top:1px solid var(--garis)}
+details.tj-bab > summary{list-style:none;cursor:pointer;padding:11px 14px;display:flex;justify-content:space-between;gap:10px;align-items:center}
+details.tj-bab > summary span{color:var(--redup);font-size:12px;white-space:nowrap}
+.tj-widget{border:1px dashed var(--hijau);border-radius:10px;padding:10px 12px;margin:12px 0;color:var(--hijau);font-size:13.5px}
+.tj-catatan{margin:0 14px 14px}
+.tj-catatan textarea{min-height:50px;border:1px dashed var(--kuning);background:var(--kuning2)}
+.tj-catatan textarea::placeholder{color:var(--kuning)}
+.tj-kuis{border-top:1px solid var(--garis);padding:12px 14px 4px}
+.tj-soal{padding:10px 0;border-bottom:1px solid var(--garis)}
+.tj-soal ol{margin:6px 0 4px;padding-left:22px}
+.tj-why{color:var(--redup);font-size:13px;display:none}
+.kunci .benar{color:var(--hijau);font-weight:700}
+.kunci .benar::after{content:"  ✓ kunci"}
+.kunci .tj-why{display:block}
+mark{background:var(--kuning2);color:var(--kuning);border-radius:3px;padding:0 2px}
 /* nav bawah */
 nav{position:fixed;left:0;right:0;bottom:0;background:var(--bg);border-top:1px solid var(--garis);padding-bottom:env(safe-area-inset-bottom);z-index:6}
 nav .dalam{display:flex;max-width:720px;margin:0 auto;height:var(--nav)}
@@ -368,6 +405,23 @@ nav button.on{color:var(--hijau);font-weight:700}
   <div id="daftarJurnal"></div>
 </section>
 
+<!-- ================= TINJAU KURIKULUM (mode admin) ================= -->
+<section class="layar" id="lyTinjau">
+  <div class="pad" style="padding-top:12px">
+    <div class="redup">Semua modul, bab, dan kuis dalam satu halaman. Tulis catatan di kotak kuning, lalu salin semuanya untuk dikirim ke Claude.</div>
+    <input type="search" id="tjCari" placeholder="Cari kata di seluruh materi, misalnya: PER, dividen, batas rugi" style="margin-top:10px">
+    <div class="tj-alat">
+      <button class="tj-tbl" id="tjBuka">Buka semua</button>
+      <button class="tj-tbl" id="tjTutup">Tutup semua</button>
+      <button class="tj-tbl on" id="tjKunci">Kunci jawaban: tampil</button>
+      <button class="tj-tbl utama" id="tjSalin">Salin catatan (0)</button>
+    </div>
+  </div>
+  <div class="tj-ringkas pad" id="tjRingkas"></div>
+  <div class="pad"><div class="tj-daftar" id="tjDaftar"></div></div>
+  <div class="pad"><div id="tjIsi" class="kunci"></div><div class="kosong sembunyi" id="tjKosong">Tidak ada materi yang mengandung kata itu.</div></div>
+</section>
+
 <!-- ================= LAPORAN ================= -->
 <section class="layar" id="lyLaporan">
   <div class="profil"><div class="avatar" id="lAvatar">?</div><div style="min-width:0"><b style="font-size:16px" id="lNama"></b><div class="redup" id="lKelas"></div></div></div>
@@ -383,14 +437,17 @@ nav button.on{color:var(--hijau);font-weight:700}
   <div class="menu-baris" id="mProfil">Ubah nama / kelas <span>›</span></div>
   <div class="menu-baris" id="mReset">Mulai ulang simulasi <span>›</span></div>
   <div class="menu-baris" id="mTema">Tema <span id="mTemaKet"></span></div>
-  <div class="menu-baris" id="mGuru">Mode guru <span id="mGuruKet">🔒 ›</span></div>
+  <div class="menu-baris" id="mGuru">Mode admin <span id="mGuruKet">🔒 ›</span></div>
   <div class="kartu sembunyi" id="kartuKode">
-    <label class="lbl" style="margin-top:0">Kode guru</label>
+    <label class="lbl" style="margin-top:0">Kata sandi admin</label>
     <div style="display:flex;gap:8px"><input id="kKodeGuru" type="password" autocomplete="off"><button class="tombol hijau kecil" id="kMasukGuru">Masuk</button></div>
     <div class="redup" id="kGuruKet" style="margin-top:6px"></div>
   </div>
   <div class="kartu sembunyi" id="kartuGuru">
-    <b>Mode guru</b>
+    <b>Mode admin</b>
+    <button class="tombol hijau" id="gTinjau" style="margin:10px 0 4px">Tinjau kurikulum</button>
+    <div class="redup" style="margin-bottom:12px">Semua modul, bab, dan kuis dalam satu halaman, dengan kunci jawaban dan kotak catatan.</div>
+    <b style="font-size:14px">Rekap laporan siswa</b>
     <p class="redup" style="margin:6px 0 10px">Kumpulkan berkas laporan siswa (misalnya lewat WhatsApp), lalu buka semuanya sekaligus di sini. Berkas hanya dibaca di perangkat ini, tidak dikirim ke mana pun.</p>
     <input type="file" id="gBerkas" accept=".json,application/json" multiple>
     <div class="redup" id="gKet" style="margin-top:8px"></div>
@@ -400,7 +457,7 @@ nav button.on{color:var(--hijau);font-weight:700}
     </table></div>
     <div id="gDetail"></div>
     <label style="display:flex;gap:8px;align-items:center;margin-top:12px;font-size:13.5px"><input type="checkbox" id="gBukaSemua" style="width:auto"> Buka semua modul &amp; simulator di perangkat ini</label>
-    <button class="tombol abu" id="gKeluar" style="margin-top:10px">Keluar mode guru</button>
+    <button class="tombol abu" id="gKeluar" style="margin-top:10px">Keluar mode admin</button>
   </div>
   <div class="redup" style="text-align:center;padding:14px" id="lVersi"></div>
 </section>
@@ -415,8 +472,9 @@ nav button.on{color:var(--hijau);font-weight:700}
 
 <script>
 "use strict";
-const VERSI_APP = "2026-10-12-2";
-const KODE_GURU = "TITEN2026";          // ganti di sini kalau ingin kode lain
+const VERSI_APP = "2026-10-12-3";
+// kata sandi admin disimpan sebagai SHA-256 dari "titen-kurikulum:" + sandi, bukan teks aslinya
+const HASH_ADMIN = "a18a8010f43c23f49a92668f7dcb2639656bd38a07473658c8ea9904b18b8892";
 const MODAL = 100000000;
 const BIAYA_BELI = 0.0015, BIAYA_JUAL = 0.0025;
 const LULUS = 70;
@@ -749,10 +807,10 @@ pasangTema();
 /* ===================================================================
    NAVIGASI
    =================================================================== */
-const INDUK = {lyModul:"lyBelajar", lyBaca:"lyModul", lyKuis:"lyModul", lyDetail:"lySimulator", lyOrder:"lyDetail", lyJual:"lyDetail"};
-const NAV = {lyModul:"lyBelajar", lyBaca:"lyBelajar", lyKuis:"lyBelajar", lyDetail:"lySimulator", lyOrder:"lySimulator", lyJual:"lySimulator"};
+const INDUK = {lyTinjau:"lyLaporan", lyModul:"lyBelajar", lyBaca:"lyModul", lyKuis:"lyModul", lyDetail:"lySimulator", lyOrder:"lyDetail", lyJual:"lyDetail"};
+const NAV = {lyTinjau:"lyLaporan", lyModul:"lyBelajar", lyBaca:"lyBelajar", lyKuis:"lyBelajar", lyDetail:"lySimulator", lyOrder:"lySimulator", lyJual:"lySimulator"};
 const JUDUL = {lyProfil:"TITEN KURIKULUM", lyBelajar:"Belajar", lyModul:"Modul", lyBaca:"Bacaan", lyKuis:"Kuis", lySimulator:"Simulator",
-  lyDetail:"", lyOrder:"Order beli", lyJual:"Order jual", lyJurnal:"Jurnal", lyLaporan:"Laporan"};
+  lyDetail:"", lyOrder:"Order beli", lyJual:"Order jual", lyJurnal:"Jurnal", lyLaporan:"Laporan", lyTinjau:"Tinjau kurikulum"};
 let layarAktif = "lyBelajar";
 function buka(id){
   layarAktif = id;
@@ -1399,7 +1457,7 @@ function gambarJurnal(){
 }
 
 /* ===================================================================
-   LAPORAN & MODE GURU
+   LAPORAN & MODE ADMIN
    =================================================================== */
 function ringkasan(){
   const lulus = MODUL.filter((_,i) => modulLulus(i)).length;
@@ -1455,12 +1513,133 @@ $("mReset").onclick = () => {
 };
 $("mTema").onclick = () => { S.tema = S.tema === "terang" ? "gelap" : "terang"; simpan(); pasangTema(); gambarLaporan(); };
 $("mGuru").onclick = () => { if (S.guru) { $("kartuGuru").scrollIntoView({behavior:"smooth"}); return; } $("kartuKode").classList.toggle("sembunyi"); };
-$("kMasukGuru").onclick = () => {
-  if ($("kKodeGuru").value === KODE_GURU){ S.guru = true; simpan(); $("kKodeGuru").value = ""; $("kartuKode").classList.add("sembunyi"); $("kGuruKet").textContent = ""; gambarLaporan(); }
-  else $("kGuruKet").textContent = "Kode salah.";
+$("kMasukGuru").onclick = async () => {
+  const h = await sha256("titen-kurikulum:" + $("kKodeGuru").value);
+  if (h === HASH_ADMIN){ S.guru = true; simpan(); $("kKodeGuru").value = ""; $("kartuKode").classList.add("sembunyi"); $("kGuruKet").textContent = ""; gambarLaporan(); }
+  else $("kGuruKet").textContent = "Kata sandi salah.";
 };
+$("kKodeGuru").addEventListener("keydown", e => { if (e.key === "Enter") $("kMasukGuru").click(); });
+$("gTinjau").onclick = () => bukaTinjau();
+
+/* SHA-256 (tidak bergantung crypto.subtle supaya jalan di semua browser) */
+async function sha256(teks){
+  const b = new TextEncoder().encode(teks);
+  if (window.crypto && crypto.subtle && window.isSecureContext){
+    const d = await crypto.subtle.digest("SHA-256", b);
+    return [...new Uint8Array(d)].map(x => x.toString(16).padStart(2, "0")).join("");
+  }
+  const K = [0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
+    0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,
+    0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,
+    0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
+  let H = [0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
+  const l = b.length, n = ((l + 9 + 63) >> 6) << 6, m = new Uint8Array(n);
+  m.set(b); m[l] = 0x80;
+  const dv = new DataView(m.buffer); dv.setUint32(n - 4, l * 8); dv.setUint32(n - 8, Math.floor(l / 0x20000000));
+  const r = (x, k) => (x >>> k) | (x << (32 - k)), W = new Uint32Array(64);
+  for (let o = 0; o < n; o += 64){
+    for (let i = 0; i < 16; i++) W[i] = dv.getUint32(o + i*4);
+    for (let i = 16; i < 64; i++){ const s0 = r(W[i-15],7) ^ r(W[i-15],18) ^ (W[i-15] >>> 3), s1 = r(W[i-2],17) ^ r(W[i-2],19) ^ (W[i-2] >>> 10); W[i] = (W[i-16] + s0 + W[i-7] + s1) | 0; }
+    let [a,bb,c,d,e,f,g,h] = H;
+    for (let i = 0; i < 64; i++){
+      const t1 = (h + (r(e,6) ^ r(e,11) ^ r(e,25)) + ((e & f) ^ (~e & g)) + K[i] + W[i]) | 0;
+      const t2 = ((r(a,2) ^ r(a,13) ^ r(a,22)) + ((a & bb) ^ (a & c) ^ (bb & c))) | 0;
+      h = g; g = f; f = e; e = (d + t1) | 0; d = c; c = bb; bb = a; a = (t1 + t2) | 0;
+    }
+    H = H.map((v,i) => (v + [a,bb,c,d,e,f,g,h][i]) | 0);
+  }
+  return H.map(v => (v >>> 0).toString(16).padStart(8, "0")).join("");
+}
 $("gKeluar").onclick = () => { S.guru = false; S.bukaSemua = false; simpan(); gambarLaporan(); };
 $("gBukaSemua").onchange = () => { S.bukaSemua = $("gBukaSemua").checked; simpan(); };
+
+/* ---- tinjau kurikulum (hanya mode admin) ---- */
+const TJ_WIDGET = {bunga:"Widget interaktif: kalkulator bunga majemuk (setoran per bulan, lama, imbal hasil)",
+  bodong:"Widget interaktif: permainan \"Asli atau bodong?\" (3 contoh tawaran investasi)",
+  candle:"Gambar: candlestick naik dan turun dengan keterangan buka/tutup/tertinggi/terendah"};
+let tjCatatan = baca("catatan_tinjau", {}), tjSiap = false;
+function tjHitung(){ $("tjSalin").textContent = "Salin catatan (" + Object.keys(tjCatatan).length + ")"; }
+function bukaTinjau(){
+  if (!S.guru){ buka("lyLaporan"); return; }
+  if (!tjSiap) siapkanTinjau();
+  buka("lyTinjau");
+}
+function siapkanTinjau(){
+  tjSiap = true;
+  const menit = m => m.bab.reduce((x,b) => x + b.menit, 0);
+  $("tjRingkas").innerHTML = [["Modul", MODUL.length], ["Bab", MODUL.reduce((a,m) => a + m.bab.length, 0)],
+    ["Menit baca", "±" + MODUL.reduce((a,m) => a + menit(m), 0)], ["Soal kuis", MODUL.reduce((a,m) => a + m.kuis.length, 0)]]
+    .map(([a,b]) => `<div><small>${a}</small><b>${b}</b></div>`).join("");
+  $("tjDaftar").innerHTML = "<b>Daftar isi</b>" + MODUL.map((m,i) =>
+    `<a data-i="${i}">${i+1}. ${esc(m.judul)}<span>${m.bab.length} bab · ${m.kuis.length} soal · ±${menit(m)} mnt</span></a>`).join("");
+  $("tjDaftar").querySelectorAll("a").forEach(a => a.onclick = () => { const d = $("tjm" + a.dataset.i); d.open = true; d.scrollIntoView({behavior:"smooth"}); });
+  const kotak = (k, label) => `<div class="tj-catatan"><textarea data-k="${k}" placeholder="Catatan untuk ${esc(label)} (tambah / hapus / ubah apa?)">${esc(tjCatatan[k] || "")}</textarea></div>`;
+  const isiBab = h => h.replace(/<div class="widget" data-widget="(\w+)"><\/div>/g, (_,w) => `<div class="tj-widget">▸ ${TJ_WIDGET[w] || "Widget interaktif"}</div>`);
+  $("tjIsi").innerHTML = MODUL.map((m,i) => `
+    <details class="tj-modul" id="tjm${i}">
+      <summary><div class="tj-no">${i+1}</div><div class="tj-sum"><b>${esc(m.judul)}</b><div>${esc(m.ringkas)}</div></div><span class="tj-panah">›</span></summary>
+      <div style="height:12px"></div>${kotak("m"+i, "Modul " + (i+1) + " secara umum")}
+      ${m.bab.map((b,j) => `
+        <details class="tj-bab" data-teks="${esc((b.judul + " " + b.isi.replace(/<[^>]+>/g," ")).toLowerCase())}">
+          <summary><b>Bab ${j+1}. ${esc(b.judul)}</b><span>±${b.menit} menit</span></summary>
+          <div class="bacaan">${isiBab(b.isi)}</div>
+          ${kotak("m"+i+"b"+j, "bab ini")}
+        </details>`).join("")}
+      <div class="tj-kuis" data-teks="${esc(m.kuis.map(q => q.t + " " + q.p.join(" ") + " " + q.why).join(" ").toLowerCase())}">
+        <b>Kuis Modul ${i+1} · ${m.kuis.length} soal · lulus ${LULUS}</b>
+        ${m.kuis.map((q,n) => `<div class="tj-soal"><div style="font-weight:600">${n+1}. ${esc(q.t)}</div>
+          <ol type="a">${q.p.map((p,k) => `<li class="${k===q.b?"benar":""}">${esc(p)}</li>`).join("")}</ol>
+          <div class="tj-why">Penjelasan: ${esc(q.why)}</div></div>`).join("")}
+      </div>
+      ${kotak("m"+i+"k", "kuis modul ini")}
+    </details>`).join("");
+  $("tjIsi").querySelectorAll("textarea").forEach(t => t.oninput = () => {
+    if (t.value.trim()) tjCatatan[t.dataset.k] = t.value; else delete tjCatatan[t.dataset.k];
+    tulis("catatan_tinjau", tjCatatan); tjHitung();
+  });
+  tjHitung();
+}
+$("tjBuka").onclick = () => $("tjIsi").querySelectorAll("details").forEach(d => d.open = true);
+$("tjTutup").onclick = () => $("tjIsi").querySelectorAll("details").forEach(d => d.open = false);
+$("tjKunci").onclick = () => { const on = $("tjIsi").classList.toggle("kunci"); $("tjKunci").classList.toggle("on", on); $("tjKunci").textContent = "Kunci jawaban: " + (on ? "tampil" : "sembunyi"); };
+$("tjSalin").onclick = async () => {
+  const baris = [];
+  MODUL.forEach((m,i) => {
+    const tambah = (k, label) => { if (tjCatatan[k]) baris.push("- " + label + ": " + tjCatatan[k].trim().replace(/\n+/g, " / ")); };
+    tambah("m"+i, "Modul " + (i+1) + " (" + m.judul + ")");
+    m.bab.forEach((b,j) => tambah("m"+i+"b"+j, "Modul " + (i+1) + " Bab " + (j+1) + " (" + b.judul + ")"));
+    tambah("m"+i+"k", "Kuis Modul " + (i+1));
+  });
+  if (!baris.length){ alert("Belum ada catatan."); return; }
+  const teks = "Catatan tinjauan TITEN KURIKULUM (versi " + VERSI_APP + "):\n" + baris.join("\n");
+  try{ await navigator.clipboard.writeText(teks); $("tjSalin").textContent = "Tersalin ✓ — tempel ke chat Claude"; setTimeout(tjHitung, 2500); }
+  catch(e){ prompt("Salin teks ini:", teks); }
+};
+$("tjCari").oninput = () => {
+  const q = $("tjCari").value.trim().toLowerCase();
+  $("tjIsi").querySelectorAll("mark").forEach(mk => mk.replaceWith(mk.textContent));
+  let ada = 0;
+  $("tjIsi").querySelectorAll("details.tj-modul").forEach(md => {
+    let cocokModul = false;
+    md.querySelectorAll("details.tj-bab, .tj-kuis").forEach(el => {
+      const cocok = !q || el.dataset.teks.includes(q);
+      el.classList.toggle("sembunyi", !cocok);
+      if (cocok && q){ cocokModul = true; if (el.tagName === "DETAILS") el.open = true; }
+    });
+    md.classList.toggle("sembunyi", !!q && !cocokModul);
+    if (q && cocokModul){ md.open = true; ada++; }
+  });
+  if (q){
+    const re = new RegExp("(" + q.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + ")", "gi");
+    $("tjIsi").querySelectorAll(".bacaan, .tj-soal").forEach(el => {
+      if (el.closest(".sembunyi")) return;
+      const w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT), nodes = [];
+      while (w.nextNode()) nodes.push(w.currentNode);
+      nodes.forEach(n => { re.lastIndex = 0; if (re.test(n.nodeValue)){ const s = document.createElement("span"); s.innerHTML = esc(n.nodeValue).replace(re, "<mark>$1</mark>"); n.replaceWith(...s.childNodes); } });
+    });
+  }
+  $("tjKosong").classList.toggle("sembunyi", !q || ada > 0);
+};
 
 let laporanSiswa = [];
 $("gBerkas").onchange = async e => {
