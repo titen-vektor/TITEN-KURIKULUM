@@ -1,6 +1,6 @@
 // TITEN KURIKULUM - service worker
 // Naikkan VERSI ini bersamaan dengan versi.txt dan VERSI_APP di index.html
-const VERSI = "2026-10-12-2";
+const VERSI = "2026-10-12-3";
 const CACHE = "titen-kurikulum-" + VERSI;
 const CANGKANG = ["./", "./index.html", "./manifest.webmanifest", "./ikon-192.png", "./ikon-512.png"];
 
