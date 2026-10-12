@@ -1,365 +1,421 @@
 <!doctype html>
-<html lang="id">
+<html lang="id" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>TITEN KURIKULUM</title>
-<meta name="theme-color" content="#0f7a5c">
+<meta name="theme-color" content="#0f0f0f">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="ikon-192.png">
 <link rel="apple-touch-icon" href="ikon-192.png">
 <style>
 :root{
-  --bg:#f3f6f5; --kartu:#fff; --teks:#14211d; --redup:#5d6d68; --garis:#dde5e2;
-  --merek:#0f7a5c; --merek2:#e3f3ed; --naik:#16a34a; --turun:#dc2626; --turun2:#fde8e8; --kuning:#b7791f; --kuning2:#fdf3df;
-  --diatas-merek:#fff;
+  --bg:#0f0f0f; --permukaan:#1a1a1a; --permukaan2:#262626; --garis:#262626;
+  --teks:#f2f2f2; --redup:#8c8c8c; --hijau:#00b26f; --hijau2:rgba(0,178,111,.14);
+  --merah:#f0514f; --merah2:rgba(240,81,79,.14); --kuning:#f5b544; --kuning2:rgba(245,181,68,.13);
+  --nav:62px;
 }
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    --bg:#0e1513; --kartu:#17211e; --teks:#e6efec; --redup:#93a6a0; --garis:#2a3833;
-    --merek:#34c497; --merek2:#163a2f; --naik:#34d27a; --turun:#f2685f; --turun2:#3a1a19; --kuning:#e5b45a; --kuning2:#3a2f17;
-    --diatas-merek:#06231a;
-  }
-}
-:root[data-theme="dark"]{
-  --bg:#0e1513; --kartu:#17211e; --teks:#e6efec; --redup:#93a6a0; --garis:#2a3833;
-  --merek:#34c497; --merek2:#163a2f; --naik:#34d27a; --turun:#f2685f; --turun2:#3a1a19; --kuning:#e5b45a; --kuning2:#3a2f17;
-  --diatas-merek:#06231a;
+:root[data-theme="light"]{
+  --bg:#ffffff; --permukaan:#f5f6f7; --permukaan2:#e9ebed; --garis:#e7e9eb;
+  --teks:#16181a; --redup:#757b81; --hijau:#00a266; --hijau2:rgba(0,162,102,.1);
+  --merah:#e5413f; --merah2:rgba(229,65,63,.1); --kuning:#b97c0c; --kuning2:rgba(201,138,18,.12);
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--teks);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
-header{background:var(--merek);color:var(--diatas-merek);padding:12px 16px;position:sticky;top:0;z-index:5}
-header .atas{display:flex;justify-content:space-between;align-items:center;max-width:720px;margin:0 auto;gap:10px}
-header b{font-size:17px;letter-spacing:.5px}
-header small{opacity:.85;font-size:12px}
-.lencana{background:rgba(255,255,255,.22);border-radius:20px;padding:3px 10px;font-size:12px;font-weight:600;white-space:nowrap}
+body{margin:0;background:var(--bg);color:var(--teks);font:14.5px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+button{font:inherit}
+.ikon{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
 #pitaVersi{display:none;background:var(--kuning2);color:var(--kuning);font-size:13px;text-align:center;padding:8px 16px;font-weight:600;cursor:pointer}
-main{max-width:720px;margin:0 auto;padding:14px 16px 96px}
+header{position:sticky;top:0;z-index:6;background:var(--bg);border-bottom:1px solid var(--garis)}
+header .dalam{max-width:720px;margin:0 auto;display:flex;align-items:center;gap:8px;padding:12px 16px 10px}
+#tblKembali{border:0;background:none;color:var(--teks);padding:0 4px 0 0;cursor:pointer;display:none}
+#judulAtas{font-size:19px;font-weight:700;margin:0;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#hdrSkor{font-size:12px;font-weight:700;padding:3px 9px;border-radius:7px;background:var(--hijau2);color:var(--hijau);white-space:nowrap}
+main{max-width:720px;margin:0 auto;padding-bottom:calc(var(--nav) + 16px + env(safe-area-inset-bottom))}
 .layar{display:none}.layar.aktif{display:block}
-h2{font-size:18px;margin:4px 0 10px}
-h3{font-size:15px;margin:0 0 6px}
-.kartu{background:var(--kartu);border:1px solid var(--garis);border-radius:12px;padding:14px;margin-bottom:12px}
+.pad{padding:0 16px}
+.label{color:var(--redup);font-size:12.5px}
 .redup{color:var(--redup);font-size:13px}
-.bar{height:8px;background:var(--garis);border-radius:8px;overflow:hidden;margin:8px 0 4px}
-.bar i{display:block;height:100%;background:var(--merek);border-radius:8px}
-.modul{display:flex;gap:12px;align-items:center;cursor:pointer}
-.nomor{flex:0 0 38px;height:38px;border-radius:50%;display:grid;place-items:center;font-weight:700;background:var(--merek2);color:var(--merek)}
-.modul.kunci{opacity:.5;cursor:not-allowed}
-.modul .isi{flex:1;min-width:0}
-.status{font-size:12px;font-weight:600;padding:2px 8px;border-radius:10px;white-space:nowrap}
-.s-ok{background:var(--merek2);color:var(--merek)}
-.s-jalan{background:var(--kuning2);color:var(--kuning)}
-.s-kunci{background:var(--garis);color:var(--redup)}
-.s-buruk{background:var(--turun2);color:var(--turun)}
-.tombol{display:inline-block;border:0;border-radius:10px;padding:11px 16px;font:inherit;font-weight:600;cursor:pointer;background:var(--merek);color:var(--diatas-merek);width:100%;text-align:center}
-.tombol.kedua{background:var(--merek2);color:var(--merek)}
-.tombol.bahaya{background:var(--turun);color:#fff}
-.tombol:disabled{opacity:.45;cursor:not-allowed}
-.dua-tombol{display:flex;gap:10px;margin-top:12px}
-.baris{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
-.besar{font-size:24px;font-weight:700}
-.naik{color:var(--naik)}.turun{color:var(--turun)}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-label{display:block;font-size:13px;color:var(--redup);margin:10px 0 4px}
-input,select,textarea{width:100%;padding:10px;border:1px solid var(--garis);border-radius:9px;background:var(--bg);color:var(--teks);font:inherit}
-textarea{min-height:64px;resize:vertical}
-.chip-baris{display:flex;flex-wrap:wrap;gap:6px}
-.chip{border:1px solid var(--garis);background:var(--bg);color:var(--teks);border-radius:18px;padding:6px 12px;font:inherit;font-size:13px;cursor:pointer}
-.chip.on{background:var(--merek);border-color:var(--merek);color:var(--diatas-merek)}
-.chip.awas.on{background:var(--turun);border-color:var(--turun);color:#fff}
-.peringatan{background:var(--kuning2);color:var(--kuning);border-radius:9px;padding:9px 11px;font-size:13px;margin-top:10px}
-.peringatan.merah{background:var(--turun2);color:var(--turun)}
+.naik{color:var(--hijau)}.turun{color:var(--merah)}
 .sembunyi{display:none!important}
-.wadah-tabel{max-height:340px;overflow:auto;border:1px solid var(--garis);border-radius:10px}
-table{width:100%;border-collapse:collapse;font-size:13.5px}
-th,td{padding:9px 8px;text-align:right;border-bottom:1px solid var(--garis);white-space:nowrap}
-th:first-child,td:first-child{text-align:left}
-thead th{position:sticky;top:0;background:var(--kartu);cursor:pointer;user-select:none;font-size:12.5px;color:var(--redup);z-index:1}
-thead th.urut-naik::after{content:" ▲"}thead th.urut-turun::after{content:" ▼"}
-#tKelas td:first-child,#tKelas th:first-child,#tPorto td:first-child,#tPorto th:first-child{position:sticky;left:0;background:var(--kartu)}
-#tKelas thead th:first-child,#tPorto thead th:first-child{z-index:2}
-tbody tr.klik{cursor:pointer}
-tbody tr.klik:hover td{background:var(--merek2)}
-svg.grafik{width:100%;height:auto;display:block;margin:8px 0}
-nav{position:fixed;left:0;right:0;bottom:0;background:var(--kartu);border-top:1px solid var(--garis);display:flex;justify-content:center;padding-bottom:env(safe-area-inset-bottom);z-index:5}
-nav .dalam{display:flex;width:100%;max-width:720px}
-nav button{flex:1;border:0;background:none;color:var(--redup);font:inherit;font-size:12px;padding:8px 0 10px;cursor:pointer}
-nav button span{display:block;font-size:20px;line-height:1.2}
-nav button.aktif{color:var(--merek);font-weight:700}
-.jurnal-item{border-left:3px solid var(--merek);padding:2px 0 2px 10px;margin:12px 0}
-.jurnal-item.buruk{border-color:var(--turun)}
-.jurnal-item.sedang{border-color:var(--kuning)}
-.skor{font-size:32px;font-weight:800;color:var(--merek)}
-.bacaan{font-size:15.5px;line-height:1.65}
+/* tab bergaris bawah */
+.tab{display:flex;border-bottom:1px solid var(--garis);padding:0 16px;gap:22px;overflow-x:auto;scrollbar-width:none}
+.tab span{padding:11px 0 9px;color:var(--redup);font-weight:600;font-size:13.5px;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap}
+.tab span.on{color:var(--teks);border-color:var(--hijau)}
+/* chip angka */
+.chip{display:inline-block;font-weight:700;font-size:12.5px;padding:2px 7px;border-radius:6px;white-space:nowrap}
+.chip.naik{background:var(--hijau2);color:var(--hijau)}
+.chip.turun{background:var(--merah2);color:var(--merah)}
+.chip.netral{background:var(--permukaan2);color:var(--redup)}
+.ringkas{padding:16px}
+.ringkas .nilai{font-size:26px;font-weight:700;margin:2px 0 4px}
+.grid-mini{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--garis);border-top:1px solid var(--garis);border-bottom:1px solid var(--garis)}
+.grid-mini div{background:var(--bg);padding:10px 16px;min-width:0}
+.grid-mini small{display:block;color:var(--redup);font-size:11.5px}
+.grid-mini b{font-size:13.5px;white-space:nowrap}
+.judul-bagian{display:flex;justify-content:space-between;align-items:center;padding:16px 16px 6px;gap:10px}
+.judul-bagian b{font-size:15px}
+.judul-bagian select{width:auto;padding:4px 6px;border:0;background:none;color:var(--hijau);font-weight:600;font-size:12.5px}
+/* baris daftar */
+.baris{display:flex;align-items:center;gap:12px;padding:11px 16px;border-bottom:1px solid var(--garis);cursor:pointer}
+.baris:active{background:var(--permukaan)}
+.logo{flex:0 0 36px;height:36px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:10.5px;color:#fff;letter-spacing:-.2px}
+.baris .tengah{flex:1;min-width:0}
+.baris .kode{font-weight:700;font-size:14.5px}
+.baris .nama{color:var(--redup);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.baris .kanan{text-align:right;flex:none}
+.baris .harga{font-weight:700;font-size:14.5px}
+.spark{width:52px;height:26px;flex:none}
+@media (max-width:340px){.spark{display:none}}
+.bulat{flex:0 0 40px;height:40px}
+.baris.kunci{opacity:.42;cursor:not-allowed}
+.lencana{font-size:11.5px;font-weight:700;padding:2px 8px;border-radius:6px;white-space:nowrap}
+.l-ok{background:var(--hijau2);color:var(--hijau)}
+.l-jalan{background:var(--kuning2);color:var(--kuning)}
+.l-buruk{background:var(--merah2);color:var(--merah)}
+.l-kunci{background:var(--permukaan2);color:var(--redup)}
+.kartu{margin:12px 16px;background:var(--permukaan);border-radius:12px;padding:14px}
+.kartu-lanjut{display:flex;align-items:center;gap:12px}
+.kartu-lanjut .tengah{flex:1;min-width:0}
+.kosong{text-align:center;color:var(--redup);padding:28px 16px}
+/* tombol */
+.tombol{border:0;border-radius:10px;padding:12px;font-weight:700;font-size:14.5px;cursor:pointer;width:100%;text-align:center}
+.tombol.hijau{background:var(--hijau);color:#fff}
+.tombol.merah{background:var(--merah);color:#fff}
+.tombol.abu{background:var(--permukaan2);color:var(--teks)}
+.tombol.kecil{width:auto;padding:8px 14px;font-size:13px}
+.tombol:disabled{opacity:.4;cursor:not-allowed}
+.aksi{position:sticky;bottom:calc(var(--nav) + env(safe-area-inset-bottom));display:flex;gap:10px;padding:10px 16px;border-top:1px solid var(--garis);background:var(--bg);z-index:4;margin-top:16px}
+/* form */
+input,select,textarea{width:100%;padding:10px 12px;border:1px solid var(--garis);border-radius:10px;background:var(--permukaan);color:var(--teks);font:inherit}
+textarea{min-height:64px;resize:vertical}
+label.lbl{display:block;color:var(--redup);font-size:13px;margin:12px 0 5px}
+.medan{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid var(--garis);gap:10px}
+.medan > span{color:var(--redup);font-size:13.5px}
+.medan .ubah{display:flex;align-items:center;gap:8px}
+.medan .ubah input{width:96px;text-align:center;font-weight:700;font-size:16px;padding:6px;background:none;border:0}
+.pm{width:32px;height:32px;border-radius:8px;border:0;background:var(--permukaan2);color:var(--teks);font-size:18px;cursor:pointer;flex:none}
+.chips{display:flex;flex-wrap:wrap;gap:6px;padding:6px 0 10px}
+.chips button{border:1px solid var(--garis);background:none;border-radius:16px;padding:6px 11px;font-size:12.5px;cursor:pointer;color:var(--teks)}
+.chips button.on{background:var(--hijau2);border-color:var(--hijau);color:var(--hijau)}
+.chips button.awas.on{background:var(--merah2);border-color:var(--merah);color:var(--merah)}
+.info{margin:12px 0 0;background:var(--permukaan);border-radius:10px;padding:10px 12px;font-size:13.5px}
+.info .r{display:flex;justify-content:space-between;padding:3px 0;gap:10px}
+.info .r span{color:var(--redup)}
+.peringatan{background:var(--kuning2);color:var(--kuning);border-radius:9px;padding:9px 11px;font-size:13px;margin-top:10px}
+.peringatan.merah{background:var(--merah2);color:var(--merah)}
+/* detail saham */
+.det-atas{padding:14px 16px 0}
+.det-atas .kode{font-size:18px;font-weight:700}
+.det-harga{font-size:30px;font-weight:700;margin-top:10px;line-height:1.1}
+svg.grafik{width:100%;height:auto;display:block;margin-top:8px}
+.rentang{display:flex;gap:6px;padding:6px 16px 4px}
+.rentang span{padding:4px 11px;border-radius:6px;color:var(--redup);font-weight:600;font-size:12.5px;cursor:pointer}
+.rentang span.on{background:var(--permukaan2);color:var(--teks)}
+.statistik{display:grid;grid-template-columns:1fr 1fr;column-gap:22px;padding:0 16px 4px}
+.statistik div{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--garis);font-size:13px;gap:6px}
+.statistik div > span{color:var(--redup)}
+/* bacaan & kuis */
+.bacaan{font-size:15.5px;line-height:1.65;padding:4px 16px}
 .bacaan h4{font-size:15.5px;margin:18px 0 6px}
 .bacaan ul,.bacaan ol{padding-left:20px;margin:6px 0}
 .bacaan li{margin:3px 0}
-.bacaan .kotak{background:var(--merek2);border-radius:10px;padding:10px 12px;margin:12px 0}
+.bacaan .kotak{background:var(--hijau2);border-radius:10px;padding:10px 12px;margin:12px 0}
 .bacaan .kotak.awas{background:var(--kuning2)}
-.bacaan table{font-size:13.5px;margin:10px 0}
-.bacaan table td,.bacaan table th{white-space:normal}
-.soal{margin:14px 0 4px}
-.soal b{display:block;margin-bottom:6px}
-.pilihan{display:block;border:1px solid var(--garis);border-radius:9px;padding:9px 11px;margin:6px 0;cursor:pointer}
-.pilihan input{width:auto;margin-right:8px}
-.pilihan.benar{border-color:var(--naik);background:var(--merek2)}
-.pilihan.salah{border-color:var(--turun);background:var(--turun2)}
-.alasan-kuis{font-size:13px;color:var(--redup);margin:4px 0 0}
-.widget{border:1px dashed var(--merek);border-radius:10px;padding:12px;margin:12px 0}
+.bacaan table{width:100%;border-collapse:collapse;font-size:13.5px;margin:10px 0}
+.bacaan th,.bacaan td{padding:7px 6px;border-bottom:1px solid var(--garis);text-align:left;vertical-align:top}
+.bacaan th{color:var(--redup);font-weight:600}
+.widget{border:1px dashed var(--hijau);border-radius:10px;padding:12px;margin:12px 0}
+.widget .dua{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.widget .r{display:flex;justify-content:space-between;margin-top:8px}
 .kartu-tebak{border:1px solid var(--garis);border-radius:10px;padding:10px;margin:8px 0}
-.kosong{text-align:center;color:var(--redup);padding:20px 8px}
-.memuat{text-align:center;color:var(--redup);padding:24px 8px}
-.saran{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.kartu-tebak .dua-tombol{display:flex;gap:8px;margin-top:8px}
+.soal{padding:14px 16px 4px;border-bottom:1px solid var(--garis)}
+.soal b{display:block;margin-bottom:8px}
+.pilihan{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--garis);border-radius:10px;padding:10px 12px;margin:7px 0;cursor:pointer}
+.pilihan input{width:auto;margin-top:3px}
+.pilihan.benar{border-color:var(--hijau);background:var(--hijau2)}
+.pilihan.salah{border-color:var(--merah);background:var(--merah2)}
+.alasan-kuis{font-size:13px;color:var(--redup);margin:6px 0 8px}
+/* jurnal */
+.jur{padding:12px 16px;border-bottom:1px solid var(--garis)}
+.jur .r{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.jur .ket{color:var(--redup);font-size:12px;margin-top:2px}
+.jur .kutip{font-size:13.5px;margin-top:5px}
+/* laporan */
+.profil{display:flex;align-items:center;gap:12px;padding:16px}
+.avatar{width:48px;height:48px;border-radius:50%;background:var(--hijau);color:#fff;display:grid;place-items:center;font-weight:700;font-size:19px;flex:none}
+.skor-besar{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 16px 8px}
+.skor-besar div{background:var(--permukaan);border-radius:12px;padding:12px}
+.skor-besar small{color:var(--redup);font-size:12px;display:block}
+.skor-besar b{font-size:24px}
+.menu-baris{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid var(--garis);cursor:pointer;gap:10px}
+.menu-baris span{color:var(--redup)}
+/* tabel guru: kepala beku + bisa diurutkan */
+.wadah-tabel{max-height:360px;overflow:auto;border:1px solid var(--garis);border-radius:10px}
+table.urut{width:100%;border-collapse:collapse;font-size:13px}
+table.urut th,table.urut td{padding:9px 8px;text-align:right;border-bottom:1px solid var(--garis);white-space:nowrap}
+table.urut th:first-child,table.urut td:first-child{text-align:left;position:sticky;left:0;background:var(--permukaan)}
+table.urut thead th{position:sticky;top:0;background:var(--permukaan);cursor:pointer;user-select:none;color:var(--redup);font-size:12px;z-index:1}
+table.urut thead th:first-child{z-index:2}
+table.urut thead th.urut-naik::after{content:" ▲"}table.urut thead th.urut-turun::after{content:" ▼"}
+table.urut tbody tr{cursor:pointer}
+/* nav bawah */
+nav{position:fixed;left:0;right:0;bottom:0;background:var(--bg);border-top:1px solid var(--garis);padding-bottom:env(safe-area-inset-bottom);z-index:6}
+nav .dalam{display:flex;max-width:720px;margin:0 auto;height:var(--nav)}
+nav button{flex:1;border:0;background:none;color:var(--redup);font-size:11px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px}
+nav button.on{color:var(--hijau);font-weight:700}
 </style>
 </head>
 <body>
 <div id="pitaVersi">Versi baru tersedia — ketuk untuk memuat ulang</div>
-<header><div class="atas">
-  <div><b>TITEN KURIKULUM</b><br><small id="hdrSiswa">Belajar pasar modal untuk SMA</small></div>
-  <span class="lencana" id="hdrSkor">Disiplin –</span>
+<header><div class="dalam">
+  <button id="tblKembali" aria-label="Kembali"><svg class="ikon" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></button>
+  <h1 id="judulAtas">TITEN KURIKULUM</h1>
+  <span id="hdrSkor">Disiplin –</span>
 </div></header>
 
 <main>
-<!-- ================= PROFIL PERTAMA KALI ================= -->
+<!-- ================= PROFIL ================= -->
 <section class="layar" id="lyProfil">
-  <h2>Selamat datang 👋</h2>
-  <div class="kartu">
-    <p style="margin-top:0">Isi dulu identitasmu. Data ini hanya tersimpan di HP ini dan ikut di laporan yang kamu kirim ke guru.</p>
-    <label>Nama panggilan</label><input id="pNama" maxlength="40">
-    <label>Kelas</label><input id="pKelas" maxlength="20" placeholder="Contoh: XI IPS 2">
-    <label>Sekolah</label><input id="pSekolah" maxlength="60">
-    <button class="tombol" id="pSimpan" style="margin-top:14px">Mulai belajar</button>
+  <div class="ringkas"><div class="nilai" style="font-size:22px">Selamat datang 👋</div>
+    <div class="redup">Isi identitasmu. Data ini hanya tersimpan di perangkat ini dan ikut di laporan yang kamu kirim ke guru.</div></div>
+  <div class="pad">
+    <label class="lbl">Nama panggilan</label><input id="pNama" maxlength="40">
+    <label class="lbl">Kelas</label><input id="pKelas" maxlength="20" placeholder="Contoh: XI IPS 2">
+    <label class="lbl">Sekolah</label><input id="pSekolah" maxlength="60">
   </div>
+  <div class="aksi"><button class="tombol hijau" id="pSimpan">Mulai belajar</button></div>
 </section>
 
 <!-- ================= BELAJAR ================= -->
 <section class="layar" id="lyBelajar">
-  <h2>Peta belajar</h2>
-  <div class="kartu">
-    <div class="baris"><h3>Kemajuan</h3><b id="pctTotal">0%</b></div>
-    <div class="bar"><i id="barTotal" style="width:0%"></i></div>
-    <div class="redup">Modul berikutnya terbuka setelah kuis modul sebelumnya lulus (nilai minimal 70). Simulator terbuka setelah Modul 4 lulus.</div>
+  <div class="ringkas" style="display:flex;align-items:center;gap:14px">
+    <svg width="60" height="60" viewBox="0 0 36 36" id="cincinTotal"></svg>
+    <div><div class="label">Kemajuan belajar</div><b style="font-size:16px" id="ketLulus"></b><div class="label">Simulator terbuka setelah Modul 4 lulus</div></div>
   </div>
+  <div class="kartu kartu-lanjut" id="kartuLanjut"></div>
+  <div class="judul-bagian"><b>Semua modul</b></div>
   <div id="daftarModul"></div>
 </section>
 
-<!-- ================= BACA BAB ================= -->
-<section class="layar" id="lyBaca">
-  <button class="tombol kedua" id="kembaliModul" style="width:auto;margin-bottom:10px">← Daftar bab</button>
-  <div class="kartu">
-    <div class="redup" id="bacaKet"></div>
-    <h2 id="bacaJudul" style="margin-top:4px"></h2>
-    <div class="bacaan" id="bacaIsi"></div>
-    <div class="dua-tombol">
-      <button class="tombol kedua" id="bacaSebelum">← Sebelumnya</button>
-      <button class="tombol" id="bacaLanjut">Selesai &amp; lanjut →</button>
-    </div>
-  </div>
-</section>
-
-<!-- ================= DETAIL MODUL ================= -->
+<!-- ================= MODUL ================= -->
 <section class="layar" id="lyModul">
-  <button class="tombol kedua" id="kembaliPeta" style="width:auto;margin-bottom:10px">← Peta belajar</button>
-  <div class="kartu">
-    <div class="redup" id="modKet"></div>
-    <h2 id="modJudul" style="margin-top:4px"></h2>
+  <div class="ringkas" style="padding-bottom:6px">
+    <div class="label" id="modKet"></div>
+    <div style="font-size:19px;font-weight:700;margin:2px 0" id="modJudul"></div>
     <div class="redup" id="modRingkas"></div>
   </div>
+  <div class="judul-bagian"><b>Bab</b></div>
   <div id="modBab"></div>
-  <div class="kartu">
-    <h3>Kuis modul</h3>
-    <div class="redup" id="modKuisKet"></div>
-    <button class="tombol" id="modKuis" style="margin-top:10px">Kerjakan kuis</button>
+  <div class="judul-bagian"><b>Kuis modul</b></div>
+  <div class="pad redup" id="modKuisKet"></div>
+  <div class="aksi"><button class="tombol hijau" id="modKuis">Kerjakan kuis</button></div>
+</section>
+
+<!-- ================= BACA ================= -->
+<section class="layar" id="lyBaca">
+  <div class="ringkas" style="padding-bottom:4px">
+    <div class="label" id="bacaKet"></div>
+    <div style="font-size:19px;font-weight:700;margin-top:2px" id="bacaJudul"></div>
+  </div>
+  <div class="bacaan" id="bacaIsi"></div>
+  <div class="aksi">
+    <button class="tombol abu" id="bacaSebelum">‹ Sebelumnya</button>
+    <button class="tombol hijau" id="bacaLanjut">Selesai &amp; lanjut ›</button>
   </div>
 </section>
 
 <!-- ================= KUIS ================= -->
 <section class="layar" id="lyKuis">
-  <button class="tombol kedua" id="kembaliDariKuis" style="width:auto;margin-bottom:10px">← Kembali ke modul</button>
-  <div class="kartu">
-    <div class="redup" id="kuisKet"></div>
-    <h2 id="kuisJudul" style="margin-top:4px"></h2>
-    <div id="kuisIsi"></div>
-    <div id="kuisHasil" class="sembunyi"></div>
-    <button class="tombol" id="kuisKirim" style="margin-top:14px">Periksa jawaban</button>
+  <div class="ringkas" style="padding-bottom:4px">
+    <div class="label" id="kuisKet"></div>
+    <div style="font-size:19px;font-weight:700;margin-top:2px" id="kuisJudul"></div>
   </div>
+  <div id="kuisIsi"></div>
+  <div class="pad"><div id="kuisHasil" class="sembunyi"></div></div>
+  <div class="aksi"><button class="tombol hijau" id="kuisKirim">Periksa jawaban</button></div>
 </section>
 
 <!-- ================= SIMULATOR ================= -->
 <section class="layar" id="lySimulator">
-  <h2>Simulator</h2>
-  <div id="simKunci" class="kartu sembunyi">
-    <h3>🔒 Simulator belum terbuka</h3>
-    <p class="redup">Selesaikan dulu Modul 1 sampai 4 dan luluskan kuisnya. Bertransaksi tanpa paham dasar dan risikonya sama saja dengan berjudi.</p>
-    <button class="tombol kedua" onclick="buka('lyBelajar')">Ke peta belajar</button>
+  <div id="simKunci" class="sembunyi">
+    <div class="ringkas"><div class="nilai" style="font-size:20px">🔒 Simulator belum terbuka</div>
+      <div class="redup">Selesaikan Modul 1 sampai 4 dan luluskan kuisnya dulu. Bertransaksi tanpa paham dasar dan risikonya sama saja dengan berjudi.</div></div>
+    <div class="pad"><button class="tombol abu" onclick="buka('lyBelajar')">Ke peta belajar</button></div>
   </div>
   <div id="simIsi">
-    <div class="kartu">
-      <div class="redup">Modal virtual awal</div>
-      <div class="besar">Rp100.000.000</div>
-      <div class="grid2" style="margin-top:8px">
-        <div><div class="redup">Kas</div><b id="simKas">–</b></div>
-        <div><div class="redup">Total nilai</div><b id="simTotal">–</b></div>
+    <div class="tab" id="simTab"><span data-t="porto" class="on">Portofolio</span><span data-t="cari">Cari saham</span><span data-t="aktif">Paling aktif</span></div>
+    <!-- portofolio -->
+    <div data-p="porto">
+      <div class="ringkas">
+        <div class="label">Total nilai · modal virtual Rp100.000.000</div>
+        <div class="nilai" id="simTotal">–</div>
+        <span id="simReturn"></span>
       </div>
-      <div class="redup" id="simTglData" style="margin-top:8px"></div>
+      <div class="grid-mini">
+        <div><small>Kas</small><b id="simKas">–</b></div>
+        <div><small>Saham</small><b id="simSaham">–</b></div>
+        <div><small>Harga per</small><b id="simTgl">–</b></div>
+      </div>
+      <div class="pad redup" id="simPesan" style="padding-top:8px"></div>
+      <div class="judul-bagian"><b>Saham saya</b>
+        <select id="urutPorto"><option value="nilai">Urut: Nilai</option><option value="ur">Urut: Untung/rugi</option><option value="kode">Urut: Kode</option></select></div>
+      <div id="daftarPorto"></div>
     </div>
+    <!-- cari -->
+    <div data-p="cari" class="sembunyi">
+      <div class="pad" style="padding-top:12px"><input id="cariEm" placeholder="Cari kode atau nama perusahaan" autocomplete="off"></div>
+      <div id="hasilCari" style="margin-top:6px"></div>
+    </div>
+    <!-- paling aktif -->
+    <div data-p="aktif" class="sembunyi">
+      <div class="pad redup" style="padding-top:10px" id="ketAktif"></div>
+      <div id="daftarAktif"></div>
+    </div>
+  </div>
+</section>
 
-    <div class="kartu" id="kartuEmiten">
-      <label style="margin-top:0">Cari saham (kode atau nama)</label>
-      <input id="cariEm" list="daftarEm" placeholder="Contoh: BBCA" autocomplete="off" autocapitalize="characters">
-      <datalist id="daftarEm"></datalist>
-      <div class="saran" id="saranEm"></div>
-      <div id="emDetail" class="sembunyi">
-        <div class="baris" style="margin-top:12px">
-          <div style="min-width:0"><b id="emKode"></b><div class="redup" id="emNama"></div></div>
-          <div style="text-align:right"><div class="besar" id="emHarga"></div><div id="emUbah"></div></div>
-        </div>
-        <svg class="grafik" id="grafik" viewBox="0 0 400 180"></svg>
-        <div class="redup">Garis = harga penutupan 40 hari bursa terakhir · garis putus-putus = MA 20</div>
-        <div id="emLibur" class="peringatan sembunyi">Saham ini tidak ditransaksikan pada hari bursa terakhir, jadi belum bisa dibeli atau dijual di simulator.</div>
-        <div id="emBeliBox">
-          <div class="grid2">
-            <div><label>Jumlah lot (1 lot = 100 lembar)</label><input id="lot" type="number" min="1" step="1" value="1" inputmode="numeric"></div>
-            <div><label>Biaya beli (0,15%)</label><input id="biaya" disabled></div>
-          </div>
-          <div class="baris" style="margin:12px 0 0"><span class="redup">Total dibayar</span><b id="total"></b></div>
-          <div id="kasKurang" class="peringatan merah sembunyi">Kas tidak cukup untuk jumlah lot ini.</div>
-          <button class="tombol" id="keJurnal" style="margin-top:12px">Isi jurnal untuk membeli</button>
-        </div>
-        <button class="tombol kedua sembunyi" id="keJual" style="margin-top:10px">Jual saham ini</button>
-      </div>
+<!-- ================= DETAIL SAHAM ================= -->
+<section class="layar" id="lyDetail">
+  <div class="det-atas">
+    <div style="display:flex;align-items:center;gap:10px">
+      <div class="logo" id="dLogo"></div>
+      <div style="min-width:0"><div class="kode" id="dKode"></div><div class="redup" id="dNama" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis"></div></div>
     </div>
+    <div class="det-harga" id="dHarga"></div>
+    <div id="dUbah" style="margin-top:4px"></div>
+  </div>
+  <svg class="grafik" id="dGrafik" viewBox="0 0 400 200"></svg>
+  <div class="rentang" id="dRentang"><span data-n="22">1M</span><span data-n="66" class="on">3M</span></div>
+  <div class="redup pad">Garis putus-putus abu = MA 20</div>
+  <div class="pad"><div id="dLibur" class="peringatan sembunyi">Saham ini tidak ditransaksikan pada hari bursa terakhir, jadi belum bisa dibeli atau dijual di simulator.</div></div>
+  <div class="kartu sembunyi" id="dPosisi"></div>
+  <div class="judul-bagian"><b id="dStatJudul">Statistik</b></div>
+  <div class="statistik" id="dStat"></div>
+  <div class="aksi" id="dAksi">
+    <button class="tombol merah" id="dJual">Jual</button>
+    <button class="tombol hijau" id="dBeli">Beli</button>
+  </div>
+</section>
 
-    <div class="kartu" id="kartuJual" style="display:none">
-      <h3>Jual <span id="jualKode"></span></h3>
-      <div class="redup" id="jualInfo"></div>
-      <div id="jualAwas" class="peringatan merah sembunyi"></div>
-      <label>Jumlah lot yang dijual</label><input id="jualLot" type="number" min="1" step="1" inputmode="numeric">
-      <label>Kenapa menjual?</label>
-      <div class="chip-baris" id="jualAlasan">
-        <button class="chip" data-v="target">Target tercapai</button>
-        <button class="chip" data-v="stop">Kena batas rugi</button>
-        <button class="chip" data-v="berubah">Alasan beli sudah tidak berlaku</button>
-        <button class="chip" data-v="kas">Butuh kas untuk saham lain</button>
-        <button class="chip awas" data-v="panik">Panik / takut</button>
-      </div>
-      <label>Catatan / pelajaran yang kamu dapat</label>
-      <textarea id="jualCatatan" placeholder="Contoh: harga sampai target 5.500, saya jual sesuai rencana"></textarea>
-      <div class="baris" style="margin-top:10px"><span class="redup">Diterima (setelah biaya 0,25%)</span><b id="jualTerima">–</b></div>
-      <div class="dua-tombol">
-        <button class="tombol kedua" id="jualBatal">Batal</button>
-        <button class="tombol" id="jualKirim" disabled>Jual</button>
-      </div>
+<!-- ================= ORDER BELI ================= -->
+<section class="layar" id="lyOrder">
+  <div class="ringkas" style="padding-bottom:4px">
+    <div style="font-size:18px;font-weight:700" id="oJudul"></div>
+    <div class="redup" id="oKet"></div>
+  </div>
+  <div class="pad">
+    <div class="medan"><span>Harga</span><b id="oHarga" style="font-size:16px"></b></div>
+    <div class="medan"><span>Jumlah lot</span><div class="ubah"><button class="pm" data-f="oLot" data-a="-1">−</button><input id="oLot" type="number" inputmode="numeric" min="1" value="1"><button class="pm" data-f="oLot" data-a="1">+</button></div></div>
+    <div class="medan"><span>Total (+biaya 0,15%)</span><b id="oTotal" style="font-size:16px"></b></div>
+    <div id="oKasKurang" class="peringatan merah sembunyi">Kas tidak cukup untuk jumlah lot ini.</div>
+    <label class="lbl">Kenapa membeli? (boleh lebih dari satu)</label>
+    <div class="chips" id="oAlasan">
+      <button data-v="tren">Tren naik</button><button data-v="support">Memantul di support</button><button data-v="laba">Laba tumbuh</button>
+      <button data-v="murah">Valuasi murah</button><button data-v="volume">Volume di atas rata-rata</button><button data-v="berita">Ada berita</button>
+      <button data-v="teman" class="awas">Ikut teman / medsos</button>
     </div>
+    <div id="oAwasTeman" class="peringatan sembunyi">Ikut-ikutan bukan alasan. Tetap boleh dicatat, tapi skor disiplinmu berkurang.</div>
+    <label class="lbl">Jelaskan dengan kalimatmu sendiri (minimal 20 huruf)</label>
+    <textarea id="oJelas" placeholder="Contoh: harga memantul di support dan MA 20 mulai naik"></textarea>
+    <div class="medan"><span>Target jual</span><div class="ubah"><button class="pm" data-f="oTarget" data-a="-1">−</button><input id="oTarget" type="number" inputmode="numeric" placeholder="–"><button class="pm" data-f="oTarget" data-a="1">+</button></div></div>
+    <div class="medan"><span>Batas rugi</span><div class="ubah"><button class="pm" data-f="oStop" data-a="-1">−</button><input id="oStop" type="number" inputmode="numeric" placeholder="–"><button class="pm" data-f="oStop" data-a="1">+</button></div></div>
+    <div class="info">
+      <div class="r"><span>Risiko dari modal awal</span><b id="oRisiko">–</b></div>
+      <div class="r"><span>Untung : rugi</span><b id="oRasio">–</b></div>
+      <div class="r"><span>Skor disiplin rencana</span><b id="oSkor">–</b></div>
+    </div>
+    <div id="oAwas"></div>
+  </div>
+  <div class="aksi">
+    <button class="tombol abu" id="oBatal">Batal</button>
+    <button class="tombol hijau" id="oBeli" disabled>Lengkapi rencana</button>
+  </div>
+</section>
 
-    <div class="kartu">
-      <h3>Portofolio saya</h3>
-      <div class="redup" style="margin-bottom:8px">Ketuk baris untuk melihat atau menjual · ketuk judul kolom untuk mengurutkan</div>
-      <div id="portoKosong" class="kosong">Belum punya saham.</div>
-      <div class="wadah-tabel sembunyi" id="portoWadah"><table class="urut" id="tPorto">
-        <thead><tr><th data-t="s">Kode</th><th data-t="n">Lot</th><th data-t="n">Avg</th><th data-t="n">Harga</th><th data-t="n">U/R %</th><th data-t="n">Nilai</th></tr></thead>
-        <tbody></tbody>
-      </table></div>
+<!-- ================= ORDER JUAL ================= -->
+<section class="layar" id="lyJual">
+  <div class="ringkas" style="padding-bottom:4px">
+    <div style="font-size:18px;font-weight:700" id="jJudul"></div>
+    <div class="redup" id="jKet"></div>
+  </div>
+  <div class="pad">
+    <div id="jAwas" class="peringatan merah sembunyi"></div>
+    <div class="medan"><span>Harga</span><b id="jHarga" style="font-size:16px"></b></div>
+    <div class="medan"><span>Jumlah lot</span><div class="ubah"><button class="pm" data-f="jLot" data-a="-1">−</button><input id="jLot" type="number" inputmode="numeric" min="1"><button class="pm" data-f="jLot" data-a="1">+</button></div></div>
+    <div class="medan"><span>Diterima (−biaya 0,25%)</span><b id="jTerima" style="font-size:16px"></b></div>
+    <label class="lbl">Kenapa menjual?</label>
+    <div class="chips" id="jAlasan">
+      <button data-v="target">Target tercapai</button><button data-v="stop">Kena batas rugi</button>
+      <button data-v="berubah">Alasan beli sudah tidak berlaku</button><button data-v="kas">Butuh kas</button>
+      <button data-v="panik" class="awas">Panik / takut</button>
     </div>
+    <label class="lbl">Catatan / pelajaran (minimal 10 huruf)</label>
+    <textarea id="jCatatan" placeholder="Contoh: harga sampai target 5.500, saya jual sesuai rencana"></textarea>
+    <div class="info"><div class="r"><span>Hasil transaksi ini</span><b id="jHasil">–</b></div></div>
+  </div>
+  <div class="aksi">
+    <button class="tombol abu" id="jBatal">Batal</button>
+    <button class="tombol merah" id="jKirim" disabled>Pilih alasan</button>
   </div>
 </section>
 
 <!-- ================= JURNAL ================= -->
 <section class="layar" id="lyJurnal">
-  <h2>Jurnal transaksi</h2>
-  <div class="kartu" id="kartuRencana">
-    <h3>Rencana beli <span id="rKode"></span></h3>
-    <div class="redup" id="rInfo"></div>
-    <label>Kenapa membeli? (boleh lebih dari satu)</label>
-    <div class="chip-baris" id="rAlasan">
-      <button class="chip" data-v="tren">Tren naik</button>
-      <button class="chip" data-v="support">Memantul di support</button>
-      <button class="chip" data-v="laba">Laba tumbuh</button>
-      <button class="chip" data-v="murah">Valuasi murah</button>
-      <button class="chip" data-v="volume">Volume di atas rata-rata</button>
-      <button class="chip" data-v="berita">Ada berita</button>
-      <button class="chip awas" data-v="teman">Ikut teman / medsos</button>
-    </div>
-    <div class="peringatan sembunyi" id="awasTeman">⚠ Ikut-ikutan bukan alasan. Tetap boleh dicatat, tapi skor disiplinmu berkurang.</div>
-    <label>Jelaskan dengan kalimatmu sendiri (minimal 20 huruf)</label>
-    <textarea id="rJelas" placeholder="Contoh: harga memantul di support dan MA 20 mengarah naik"></textarea>
-    <div class="grid2">
-      <div><label>Target jual</label><input id="rTarget" type="number" inputmode="numeric"></div>
-      <div><label>Batas rugi (stop loss)</label><input id="rStop" type="number" inputmode="numeric"></div>
-    </div>
-    <div class="baris" style="margin-top:12px"><span class="redup">Risiko dari modal awal</span><b id="rRisiko">–</b></div>
-    <div class="baris"><span class="redup">Untung : rugi</span><b id="rRasio">–</b></div>
-    <div class="peringatan merah sembunyi" id="awasRisiko">⚠ Risiko lebih dari 2% modal. Kurangi lot atau naikkan batas rugi.</div>
-    <div class="peringatan sembunyi" id="awasRasio">Calon untung lebih kecil dari 1,5 kali calon rugi. Boleh, tapi skor disiplin berkurang.</div>
-    <div class="dua-tombol">
-      <button class="tombol kedua" id="rBatal">Batal</button>
-      <button class="tombol" id="rBeli" disabled>Lengkapi jurnal</button>
-    </div>
-  </div>
-  <div class="kartu" id="kartuTanpaRencana">
-    <div class="redup">Untuk membeli, pilih saham di menu <b>Simulator</b>, lalu tekan "Isi jurnal untuk membeli".</div>
-  </div>
-  <div class="kartu">
-    <h3>Riwayat jurnal</h3>
-    <div id="daftarJurnal"></div>
-  </div>
+  <div class="tab" id="jurTab"><span data-t="semua" class="on">Semua</span><span data-t="beli">Beli</span><span data-t="jual">Jual</span><span data-t="evaluasi">Perlu dievaluasi</span></div>
+  <div class="pad" id="jurPeringatan"></div>
+  <div id="daftarJurnal"></div>
 </section>
 
-<!-- ================= KELAS / LAPORAN ================= -->
-<section class="layar" id="lyKelas">
-  <h2>Laporan &amp; kelas</h2>
-  <div class="kartu">
-    <h3 id="kNama"></h3>
-    <div class="redup" id="kKelas"></div>
-    <div class="grid2" style="margin-top:10px">
-      <div><div class="redup">Modul lulus</div><div class="skor" id="kModul">0/7</div></div>
-      <div><div class="redup">Skor disiplin</div><div class="skor" id="kDisiplin">–</div></div>
-      <div><div class="redup">Rata-rata kuis</div><b id="kKuis">–</b></div>
-      <div><div class="redup">Return simulasi</div><b id="kReturn">–</b></div>
-    </div>
-    <div class="redup" style="margin-top:10px">Skor disiplin dinilai dari kelengkapan rencana dan kepatuhanmu pada rencana itu, bukan dari besarnya untung.</div>
-    <button class="tombol" id="kUnduh" style="margin-top:12px">Unduh laporan untuk guru</button>
-    <button class="tombol kedua" id="kSalin" style="margin-top:8px">Salin ringkasan (untuk WhatsApp)</button>
-    <div class="redup" id="kSalinOk" style="text-align:center;margin-top:6px"></div>
+<!-- ================= LAPORAN ================= -->
+<section class="layar" id="lyLaporan">
+  <div class="profil"><div class="avatar" id="lAvatar">?</div><div style="min-width:0"><b style="font-size:16px" id="lNama"></b><div class="redup" id="lKelas"></div></div></div>
+  <div class="skor-besar">
+    <div><small>Skor disiplin</small><b id="lDisiplin">–</b></div>
+    <div><small>Return simulasi</small><b id="lReturn">–</b></div>
+    <div><small>Modul lulus</small><b id="lModul">0/7</b></div>
+    <div><small>Rata-rata kuis</small><b id="lKuis">–</b></div>
   </div>
-
-  <div class="kartu">
-    <h3>Pengaturan</h3>
-    <button class="tombol kedua" id="kUbahProfil">Ubah nama / kelas</button>
-    <button class="tombol kedua" id="kReset" style="margin-top:8px">Mulai ulang simulasi</button>
-    <label>Kode guru</label>
-    <div class="baris"><input id="kKodeGuru" type="password" autocomplete="off"><button class="tombol" id="kMasukGuru" style="width:auto">Masuk</button></div>
-    <div class="redup" id="kGuruKet"></div>
+  <div class="pad redup" style="padding-bottom:8px">Skor disiplin dinilai dari kelengkapan rencana dan kepatuhanmu pada rencana itu, bukan dari besarnya untung.</div>
+  <div class="menu-baris" id="mUnduh">Unduh laporan untuk guru <span>›</span></div>
+  <div class="menu-baris" id="mSalin">Salin ringkasan (WhatsApp) <span id="mSalinKet">›</span></div>
+  <div class="menu-baris" id="mProfil">Ubah nama / kelas <span>›</span></div>
+  <div class="menu-baris" id="mReset">Mulai ulang simulasi <span>›</span></div>
+  <div class="menu-baris" id="mTema">Tema <span id="mTemaKet"></span></div>
+  <div class="menu-baris" id="mGuru">Mode guru <span id="mGuruKet">🔒 ›</span></div>
+  <div class="kartu sembunyi" id="kartuKode">
+    <label class="lbl" style="margin-top:0">Kode guru</label>
+    <div style="display:flex;gap:8px"><input id="kKodeGuru" type="password" autocomplete="off"><button class="tombol hijau kecil" id="kMasukGuru">Masuk</button></div>
+    <div class="redup" id="kGuruKet" style="margin-top:6px"></div>
   </div>
-
   <div class="kartu sembunyi" id="kartuGuru">
-    <h3>👩‍🏫 Mode guru</h3>
-    <p class="redup" style="margin-top:0">Kumpulkan berkas laporan dari siswa (misalnya lewat WhatsApp), lalu buka semuanya sekaligus di sini. Berkas hanya dibaca di HP ini, tidak dikirim ke mana pun.</p>
+    <b>Mode guru</b>
+    <p class="redup" style="margin:6px 0 10px">Kumpulkan berkas laporan siswa (misalnya lewat WhatsApp), lalu buka semuanya sekaligus di sini. Berkas hanya dibaca di perangkat ini, tidak dikirim ke mana pun.</p>
     <input type="file" id="gBerkas" accept=".json,application/json" multiple>
     <div class="redup" id="gKet" style="margin-top:8px"></div>
     <div class="wadah-tabel sembunyi" id="gWadah" style="margin-top:10px"><table class="urut" id="tKelas">
       <thead><tr><th data-t="s">Siswa</th><th data-t="n">Disiplin</th><th data-t="n">Modul</th><th data-t="n">Kuis</th><th data-t="n">Trx</th><th data-t="n">Return</th></tr></thead>
       <tbody></tbody>
     </table></div>
-    <div id="gDetail" style="margin-top:10px"></div>
-    <label style="margin-top:14px"><input type="checkbox" id="gBukaSemua" style="width:auto"> Buka semua modul &amp; simulator di HP ini (untuk mencoba)</label>
-    <button class="tombol kedua" id="gKeluar" style="margin-top:10px">Keluar mode guru</button>
+    <div id="gDetail"></div>
+    <label style="display:flex;gap:8px;align-items:center;margin-top:12px;font-size:13.5px"><input type="checkbox" id="gBukaSemua" style="width:auto"> Buka semua modul &amp; simulator di perangkat ini</label>
+    <button class="tombol abu" id="gKeluar" style="margin-top:10px">Keluar mode guru</button>
   </div>
-  <div class="redup" style="text-align:center" id="kVersi"></div>
+  <div class="redup" style="text-align:center;padding:14px" id="lVersi"></div>
 </section>
 </main>
 
 <nav id="navBawah"><div class="dalam">
-  <button data-ke="lyBelajar"><span>📘</span>Belajar</button>
-  <button data-ke="lySimulator"><span>📈</span>Simulator</button>
-  <button data-ke="lyJurnal"><span>📝</span>Jurnal</button>
-  <button data-ke="lyKelas"><span>👩‍🏫</span>Laporan</button>
+  <button data-ke="lyBelajar"><svg class="ikon" viewBox="0 0 24 24"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5"/></svg>Belajar</button>
+  <button data-ke="lySimulator"><svg class="ikon" viewBox="0 0 24 24"><path d="M3 17l5-5 4 3 8-8"/><path d="M15 7h5v5"/></svg>Simulator</button>
+  <button data-ke="lyJurnal"><svg class="ikon" viewBox="0 0 24 24"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg>Jurnal</button>
+  <button data-ke="lyLaporan"><svg class="ikon" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>Laporan</button>
 </div></nav>
 
 <script>
 "use strict";
-const VERSI_APP = "2026-10-12-1";
+const VERSI_APP = "2026-10-12-2";
 const KODE_GURU = "TITEN2026";          // ganti di sini kalau ingin kode lain
 const MODAL = 100000000;
 const BIAYA_BELI = 0.0015, BIAYA_JUAL = 0.0025;
@@ -368,12 +424,9 @@ const SUMBER_DATA = [
   "https://mrd270181.github.io/TITEN/data/",
   "https://raw.githubusercontent.com/mrd270181/TITEN/main/data/"
 ];
-const HARI_DATA = 60;    // hari bursa yang diambil untuk simulator
+const HARI_DATA = 66;    // hari bursa yang diambil (±3 bulan)
 const KUNCI = "kurikulum_";
 
-/* ===================================================================
-   MATERI
-   =================================================================== */
 const MODUL = [
 { judul:"Fondasi keuangan", ringkas:"Uang, inflasi, bunga majemuk, dan cara mengenali investasi bodong.",
   bab:[
@@ -650,6 +703,7 @@ const MODUL = [
   {t:"Hal yang paling bisa dikendalikan seorang investor adalah...", p:["Arah harga besok","Proses: rencana, batas rugi, evaluasi","Berita ekonomi","Keputusan investor lain"], b:1, why:"Harga tidak bisa dikendalikan; proses bisa."}]
 }];
 
+
 /* ===================================================================
    PENYIMPANAN (semua kunci berawalan "kurikulum_")
    =================================================================== */
@@ -658,12 +712,12 @@ function tulis(k, v){ try{ localStorage.setItem(KUNCI + k, JSON.stringify(v)); }
 function hapus(k){ try{ localStorage.removeItem(KUNCI + k); }catch(e){} }
 
 const S = Object.assign({
-  profil:null,
-  kemajuan:{},           // {i:{bab:[0,1], kuis:80, coba:2}}
+  profil:null, kemajuan:{},
   sim:{kas:MODAL, posisi:{}, jurnal:[], rencana:null},
-  guru:false, bukaSemua:false, mulai:null
+  guru:false, bukaSemua:false, mulai:null, tema:"gelap"
 }, baca("state", {}));
 function simpan(){ tulis("state", S); }
+hapus("harga");    // format cache lama (versi 1)
 
 /* ===================================================================
    ALAT BANTU
@@ -671,35 +725,58 @@ function simpan(){ tulis("state", S); }
 const $ = id => document.getElementById(id);
 const angka = n => Math.round(n).toLocaleString("id-ID");
 const rp = n => (n < 0 ? "-Rp" : "Rp") + angka(Math.abs(n));
-const ringkas = n => { const a = Math.abs(n); return a >= 1e9 ? (n/1e9).toFixed(1).replace(".",",") + " M" : a >= 1e6 ? (n/1e6).toFixed(1).replace(".",",") + " Jt" : angka(n); };
+const ringkas = n => { const a = Math.abs(n), t = x => x.toFixed(1).replace(".", ",");
+  return a >= 1e12 ? t(n/1e12) + " T" : a >= 1e9 ? t(n/1e9) + " M" : a >= 1e6 ? t(n/1e6) + " Jt" : angka(n); };
 const pct = (n, d=2) => (n > 0 ? "+" : "") + n.toFixed(d).replace(".", ",") + "%";
 const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-const fmtTgl = t => { if(!t) return "–"; const [y,m,d] = t.split("-"); return +d + " " + ["Jan","Feb","Mar","Apr","Mei","Jun","Jul","Agu","Sep","Okt","Nov","Des"][+m-1] + " " + y; };
+const BULAN = ["Jan","Feb","Mar","Apr","Mei","Jun","Jul","Agu","Sep","Okt","Nov","Des"];
+const fmtTgl = t => { if(!t) return "–"; const [y,m,d] = t.split("-"); return +d + " " + BULAN[+m-1] + " " + y; };
+const fmtTglPendek = t => { if(!t) return "–"; const [,m,d] = t.split("-"); return +d + " " + BULAN[+m-1]; };
+const fraksi = h => h < 200 ? 1 : h < 500 ? 2 : h < 2000 ? 5 : h < 5000 ? 10 : 25;
+const chip = (n, teks) => `<span class="chip ${n > 0 ? "naik" : n < 0 ? "turun" : "netral"}">${teks ?? pct(n)}</span>`;
+function warnaLogo(k){ let h = 0; for (const c of k) h = (h*31 + c.charCodeAt(0)) % 360; return `hsl(${h},42%,38%)`; }
 
 function modulLulus(i){ const k = S.kemajuan[i]; return !!(k && k.kuis >= LULUS); }
 function modulTerbuka(i){ return S.bukaSemua || i === 0 || modulLulus(i-1); }
 function simTerbuka(){ return S.bukaSemua || modulLulus(3); }
 
+function pasangTema(){
+  document.documentElement.dataset.theme = S.tema === "terang" ? "light" : "dark";
+  document.querySelector('meta[name="theme-color"]').content = S.tema === "terang" ? "#ffffff" : "#0f0f0f";
+}
+pasangTema();
+
 /* ===================================================================
    NAVIGASI
    =================================================================== */
+const INDUK = {lyModul:"lyBelajar", lyBaca:"lyModul", lyKuis:"lyModul", lyDetail:"lySimulator", lyOrder:"lyDetail", lyJual:"lyDetail"};
+const NAV = {lyModul:"lyBelajar", lyBaca:"lyBelajar", lyKuis:"lyBelajar", lyDetail:"lySimulator", lyOrder:"lySimulator", lyJual:"lySimulator"};
+const JUDUL = {lyProfil:"TITEN KURIKULUM", lyBelajar:"Belajar", lyModul:"Modul", lyBaca:"Bacaan", lyKuis:"Kuis", lySimulator:"Simulator",
+  lyDetail:"", lyOrder:"Order beli", lyJual:"Order jual", lyJurnal:"Jurnal", lyLaporan:"Laporan"};
 let layarAktif = "lyBelajar";
 function buka(id){
   layarAktif = id;
   document.querySelectorAll(".layar").forEach(s => s.classList.toggle("aktif", s.id === id));
-  const induk = {lyModul:"lyBelajar", lyBaca:"lyBelajar", lyKuis:"lyBelajar"}[id] || id;
-  document.querySelectorAll("nav button").forEach(b => b.classList.toggle("aktif", b.dataset.ke === induk));
+  const nav = NAV[id] || id;
+  document.querySelectorAll("nav button").forEach(b => b.classList.toggle("on", b.dataset.ke === nav));
   $("navBawah").style.display = id === "lyProfil" ? "none" : "";
+  $("tblKembali").style.display = INDUK[id] ? "block" : "none";
+  $("judulAtas").textContent = id === "lyDetail" ? (emAktif || "") : JUDUL[id];
   if (id === "lyBelajar") gambarPeta();
   if (id === "lySimulator") gambarSimulator();
   if (id === "lyJurnal") gambarJurnal();
-  if (id === "lyKelas") gambarLaporan();
+  if (id === "lyLaporan") gambarLaporan();
   window.scrollTo(0, 0);
 }
+$("tblKembali").onclick = () => {
+  const ke = INDUK[layarAktif];
+  if (ke === "lyModul") bukaModul(modulAktif);
+  else if (ke === "lyDetail") bukaDetail(emAktif);
+  else buka(ke);
+};
 document.querySelectorAll("nav button").forEach(b => b.onclick = () => buka(b.dataset.ke));
 
 function gambarHeader(){
-  $("hdrSiswa").textContent = S.profil ? S.profil.nama + " · " + S.profil.kelas : "Belajar pasar modal untuk SMA";
   const sk = skorDisiplin();
   $("hdrSkor").textContent = "Disiplin " + (sk == null ? "–" : sk);
 }
@@ -718,28 +795,46 @@ $("pSimpan").onclick = () => {
 /* ===================================================================
    PETA BELAJAR, MODUL, BAB
    =================================================================== */
+function cincin(p, teks, ukuran){
+  return `<circle cx="18" cy="18" r="15" fill="none" stroke="var(--permukaan2)" stroke-width="3.2"/>
+    ${p > 0 ? `<circle cx="18" cy="18" r="15" fill="none" stroke="var(--hijau)" stroke-width="3.2" stroke-linecap="round" stroke-dasharray="${(p*0.9425).toFixed(1)} 100" transform="rotate(-90 18 18)"/>` : ""}
+    <text x="18" y="${ukuran > 9 ? 22 : 21}" text-anchor="middle" font-size="${ukuran}" font-weight="700" fill="var(--teks)">${teks}</text>`;
+}
 function gambarPeta(){
   let totalBab = 0, selesai = 0;
   MODUL.forEach((m,i) => { totalBab += m.bab.length + 1; const k = S.kemajuan[i] || {}; selesai += (k.bab||[]).length + (modulLulus(i) ? 1 : 0); });
   const p = Math.round(selesai / totalBab * 100);
-  $("pctTotal").textContent = p + "%"; $("barTotal").style.width = p + "%";
+  const lulus = MODUL.filter((_,i) => modulLulus(i)).length;
+  $("cincinTotal").innerHTML = cincin(p, p + "%", 8.5);
+  $("ketLulus").textContent = lulus + " dari " + MODUL.length + " modul lulus";
+  // kartu lanjutkan
+  let lanjut = null;
+  for (let i = 0; i < MODUL.length && !lanjut; i++){
+    if (!modulTerbuka(i) || modulLulus(i)) continue;
+    const k = S.kemajuan[i] || {}, sudah = k.bab || [];
+    const j = MODUL[i].bab.findIndex((_,x) => !sudah.includes(x));
+    lanjut = j >= 0 ? {i, j, teks:MODUL[i].bab[j].judul, ket:"Modul " + (i+1) + " · Bab " + (j+1)} : {i, j:-1, teks:"Kuis " + MODUL[i].judul, ket:"Modul " + (i+1) + " · semua bab selesai"};
+  }
+  $("kartuLanjut").style.display = lanjut ? "" : "none";
+  if (lanjut){
+    $("kartuLanjut").innerHTML = `<div class="tengah"><div class="label">Lanjutkan · ${lanjut.ket}</div><b>${esc(lanjut.teks)}</b></div>
+      <button class="tombol hijau kecil">${lanjut.j >= 0 ? "Baca" : "Kerjakan"}</button>`;
+    $("kartuLanjut").onclick = () => { modulAktif = lanjut.i; lanjut.j >= 0 ? bukaBab(lanjut.j) : bukaKuis(lanjut.i); };
+  }
   $("daftarModul").innerHTML = MODUL.map((m,i) => {
-    const k = S.kemajuan[i] || {}, terbuka = modulTerbuka(i), lulus = modulLulus(i);
-    const nb = (k.bab||[]).length;
-    let status, kelas;
-    if (!terbuka){ status = "Terkunci"; kelas = "s-kunci"; }
-    else if (lulus){ status = "Lulus"; kelas = "s-ok"; }
-    else if (k.kuis != null){ status = "Ulangi kuis"; kelas = "s-buruk"; }
-    else if (nb){ status = "Berjalan"; kelas = "s-jalan"; }
-    else { status = "Mulai"; kelas = "s-jalan"; }
-    const ket = lulus ? "Kuis " + k.kuis : (nb + " dari " + m.bab.length + " bab");
-    return `<div class="kartu modul ${terbuka?"":"kunci"}" data-i="${i}">
-      <div class="nomor">${i+1}</div>
-      <div class="isi"><h3>${esc(m.judul)}</h3><div class="redup">${esc(m.ringkas)} · ${ket}</div>
-      ${terbuka && !lulus && nb ? `<div class="bar"><i style="width:${Math.round(nb/m.bab.length*100)}%"></i></div>` : ""}</div>
-      <span class="status ${kelas}">${status}</span></div>`;
+    const k = S.kemajuan[i] || {}, terbuka = modulTerbuka(i), lulus = modulLulus(i), nb = (k.bab||[]).length;
+    const prog = lulus ? 100 : Math.round(nb / (m.bab.length + 1) * 100);
+    let lenc;
+    if (!terbuka) lenc = `<span class="lencana l-kunci">🔒</span>`;
+    else if (lulus) lenc = `<span class="lencana l-ok">Kuis ${k.kuis}</span>`;
+    else if (k.kuis != null) lenc = `<span class="lencana l-buruk">Ulangi kuis</span>`;
+    else if (nb) lenc = `<span class="lencana l-jalan">Bab ${nb}/${m.bab.length}</span>`;
+    else lenc = `<span class="lencana l-jalan">Mulai</span>`;
+    return `<div class="baris ${terbuka?"":"kunci"}" data-i="${i}">
+      <svg class="bulat" viewBox="0 0 36 36">${cincin(prog, i+1, 11)}</svg>
+      <div class="tengah"><div class="kode">${esc(m.judul)}</div><div class="nama">${esc(m.ringkas)}</div></div>${lenc}</div>`;
   }).join("");
-  document.querySelectorAll("#daftarModul .modul").forEach(el => el.onclick = () => {
+  document.querySelectorAll("#daftarModul .baris").forEach(el => el.onclick = () => {
     const i = +el.dataset.i;
     if (!modulTerbuka(i)){ alert("Luluskan dulu kuis Modul " + i + "."); return; }
     bukaModul(i);
@@ -755,11 +850,11 @@ function bukaModul(i){
   $("modRingkas").textContent = m.ringkas;
   $("modBab").innerHTML = m.bab.map((b,j) => {
     const sel = (k.bab||[]).includes(j);
-    return `<div class="kartu modul" data-j="${j}"><div class="nomor">${sel?"✓":j+1}</div>
-      <div class="isi"><h3>${esc(b.judul)}</h3><div class="redup">±${b.menit} menit</div></div>
-      <span class="status ${sel?"s-ok":"s-jalan"}">${sel?"Selesai":"Baca"}</span></div>`;
+    return `<div class="baris" data-j="${j}"><svg class="bulat" viewBox="0 0 36 36">${cincin(sel?100:0, sel?"✓":j+1, 11)}</svg>
+      <div class="tengah"><div class="kode">${esc(b.judul)}</div><div class="nama">±${b.menit} menit</div></div>
+      <span class="lencana ${sel?"l-ok":"l-jalan"}">${sel?"Selesai":"Baca"}</span></div>`;
   }).join("");
-  document.querySelectorAll("#modBab .modul").forEach(el => el.onclick = () => bukaBab(+el.dataset.j));
+  document.querySelectorAll("#modBab .baris").forEach(el => el.onclick = () => bukaBab(+el.dataset.j));
   const semuaBab = (k.bab||[]).length >= m.bab.length;
   $("modKuisKet").textContent = modulLulus(i) ? "Sudah lulus dengan nilai " + k.kuis + ". Boleh dikerjakan ulang."
     : k.kuis != null ? "Nilai terakhir " + k.kuis + ". Butuh minimal " + LULUS + " untuk membuka modul berikutnya."
@@ -767,8 +862,6 @@ function bukaModul(i){
   $("modKuis").disabled = !semuaBab && !S.bukaSemua;
   buka("lyModul");
 }
-$("kembaliPeta").onclick = () => buka("lyBelajar");
-$("kembaliModul").onclick = () => bukaModul(modulAktif);
 $("modKuis").onclick = () => bukaKuis(modulAktif);
 
 function bukaBab(j){
@@ -779,7 +872,7 @@ function bukaBab(j){
   $("bacaIsi").innerHTML = b.isi;
   $("bacaIsi").querySelectorAll("[data-widget]").forEach(pasangWidget);
   $("bacaSebelum").disabled = j === 0;
-  $("bacaLanjut").textContent = j === m.bab.length - 1 ? "Selesai → ke kuis" : "Selesai & lanjut →";
+  $("bacaLanjut").textContent = j === m.bab.length - 1 ? "Selesai › kuis" : "Selesai & lanjut ›";
   buka("lyBaca");
 }
 $("bacaSebelum").onclick = () => { if (babAktif > 0) bukaBab(babAktif - 1); };
@@ -797,11 +890,11 @@ function pasangWidget(el){
   const w = el.dataset.widget;
   if (w === "bunga"){
     el.innerHTML = `<b>Kalkulator bunga majemuk</b>
-      <div class="grid2"><div><label>Setoran per bulan</label><input type="number" id="wbSetor" value="100000" inputmode="numeric"></div>
-      <div><label>Lama (tahun)</label><input type="number" id="wbTahun" value="20" inputmode="numeric"></div></div>
-      <label>Imbal hasil per tahun (contoh)</label><select id="wbHasil"><option value="3">3% (setara tabungan/deposito)</option><option value="6" selected>6% (contoh campuran)</option><option value="10">10% (contoh saham jangka panjang)</option></select>
-      <div class="baris" style="margin-top:12px"><span class="redup">Total disetor</span><b id="wbModal"></b></div>
-      <div class="baris"><span class="redup">Perkiraan nilai akhir</span><b id="wbAkhir" class="naik"></b></div>`;
+      <div class="dua"><div><label class="lbl">Setoran per bulan</label><input type="number" id="wbSetor" value="100000" inputmode="numeric"></div>
+      <div><label class="lbl">Lama (tahun)</label><input type="number" id="wbTahun" value="20" inputmode="numeric"></div></div>
+      <label class="lbl">Imbal hasil per tahun (contoh)</label><select id="wbHasil"><option value="3">3% (setara tabungan/deposito)</option><option value="6" selected>6% (contoh campuran)</option><option value="10">10% (contoh saham jangka panjang)</option></select>
+      <div class="r"><span class="redup">Total disetor</span><b id="wbModal"></b></div>
+      <div class="r"><span class="redup">Perkiraan nilai akhir</span><b id="wbAkhir" class="naik"></b></div>`;
     const hitung = () => {
       const s = Math.max(0, +$("wbSetor").value||0), t = Math.min(60, Math.max(0, +$("wbTahun").value||0)), r = (+$("wbHasil").value)/100/12;
       let nilai = 0; for (let i = 0; i < t*12; i++) nilai = nilai*(1+r) + s;
@@ -815,7 +908,7 @@ function pasangWidget(el){
       {t:"Reksa dana pasar uang dari manajer investasi terdaftar di OJK. Perkiraan hasil sekitar 4–5% setahun, tidak dijamin.", bodong:false, why:"Legal (terdaftar OJK) dan logis (hasil mendekati bunga deposito, tidak dijanjikan pasti)."},
       {t:"\"Robot trading emas\" garansi profit 30% per bulan, tanpa risiko. Daftar sekarang, kuota terbatas.", bodong:true, why:"Garansi profit tinggi, \"tanpa risiko\", dan desakan waktu adalah tanda bahaya."}];
     el.innerHTML = "<b>Asli atau bodong?</b>" + kasus.map((k,i) => `<div class="kartu-tebak">${esc(k.t)}
-      <div class="dua-tombol"><button class="tombol kedua" data-k="${i}" data-j="0">Asli</button><button class="tombol kedua" data-k="${i}" data-j="1">Bodong</button></div>
+      <div class="dua-tombol"><button class="tombol abu kecil" style="flex:1" data-k="${i}" data-j="0">Asli</button><button class="tombol abu kecil" style="flex:1" data-k="${i}" data-j="1">Bodong</button></div>
       <div class="alasan-kuis" id="wbd${i}"></div></div>`).join("");
     el.querySelectorAll("button").forEach(b => b.onclick = () => {
       const k = kasus[+b.dataset.k], benar = (b.dataset.j === "1") === k.bodong;
@@ -825,10 +918,10 @@ function pasangWidget(el){
   if (w === "candle"){
     el.innerHTML = `<svg viewBox="0 0 320 170" style="width:100%;max-width:420px;display:block;margin:auto">
       <g font-size="11" fill="var(--redup)">
-      <line x1="80" y1="15" x2="80" y2="150" stroke="var(--naik)" stroke-width="2"/><rect x="62" y="45" width="36" height="70" fill="var(--naik)" rx="2"/>
+      <line x1="80" y1="15" x2="80" y2="150" stroke="var(--hijau)" stroke-width="2"/><rect x="62" y="45" width="36" height="70" fill="var(--hijau)" rx="2"/>
       <text x="104" y="19">tertinggi</text><text x="104" y="49">tutup</text><text x="104" y="118">buka</text><text x="104" y="153">terendah</text>
       <text x="56" y="166">Naik</text>
-      <line x1="230" y1="15" x2="230" y2="150" stroke="var(--turun)" stroke-width="2"/><rect x="212" y="45" width="36" height="70" fill="var(--turun)" rx="2"/>
+      <line x1="230" y1="15" x2="230" y2="150" stroke="var(--merah)" stroke-width="2"/><rect x="212" y="45" width="36" height="70" fill="var(--merah)" rx="2"/>
       <text x="254" y="19">tertinggi</text><text x="254" y="49">buka</text><text x="254" y="118">tutup</text><text x="254" y="153">terendah</text>
       <text x="206" y="166">Turun</text></g></svg>`;
   }
@@ -843,13 +936,12 @@ function bukaKuis(i){
   $("kuisKet").textContent = "Kuis Modul " + (i+1) + " · nilai lulus " + LULUS;
   $("kuisJudul").textContent = m.judul;
   $("kuisIsi").innerHTML = m.kuis.map((q,n) => `<div class="soal"><b>${n+1}. ${esc(q.t)}</b>
-    ${q.p.map((p,k) => `<label class="pilihan"><input type="radio" name="q${n}" value="${k}">${esc(p)}</label>`).join("")}
+    ${q.p.map((p,k) => `<label class="pilihan"><input type="radio" name="q${n}" value="${k}"><span>${esc(p)}</span></label>`).join("")}
     <div class="alasan-kuis sembunyi" id="why${n}"></div></div>`).join("");
   $("kuisHasil").className = "sembunyi";
   $("kuisKirim").textContent = "Periksa jawaban"; $("kuisKirim").dataset.mode = "periksa";
   buka("lyKuis");
 }
-$("kembaliDariKuis").onclick = () => bukaModul(modulAktif);
 $("kuisKirim").onclick = () => {
   const btn = $("kuisKirim");
   if (btn.dataset.mode === "ulang"){ bukaKuis(modulAktif); return; }
@@ -884,9 +976,9 @@ $("kuisKirim").onclick = () => {
 };
 
 /* ===================================================================
-   DATA HARGA (hanya berkas harga-YYYY-MM.json dari TITEN)
+   DATA HARGA (hanya berkas harga-YYYY-MM.json dari TITEN, tanpa data broker)
    =================================================================== */
-let D = null;           // {tgl:[..], kode:[..], nama:[..], c:[[..]], v:[..], versi}
+let D = null;      // {versi, tgl:[..], kode:[..], nama:[..], c:[[..]], h:[[o,h,l,v,val,fq,fb,fs,prev]]}
 let dataGalat = null, dataMemuat = false;
 async function ambilJSON(nama){
   let galat;
@@ -899,8 +991,7 @@ async function ambilJSON(nama){
 async function muatData(){
   if (dataMemuat) return;
   dataMemuat = true;
-  const cache = baca("harga", null);
-  if (cache && !D){ D = cache; }
+  if (!D) D = baca("harga2", null);
   try{
     const man = await ambilJSON("manifest.json");
     if (D && D.versi === man.versi){ dataMemuat = false; return; }
@@ -910,202 +1001,340 @@ async function muatData(){
     const isi = [];
     for (const b of bulan){ try{ isi.push(await ambilJSON("harga-" + b + ".json")); }catch(e){} }
     if (!isi.length) throw new Error("berkas harga tidak bisa diambil");
-    // gabungkan per kolom
-    const peta = new Map(); const semuaTgl = new Set();
+    const peta = new Map(), semuaTgl = new Set();
     for (const f of isi){
+      const kol = k => f[k] || [];
+      const o = kol("o"), hi = kol("h"), lo = kol("l"), v = kol("v"), val = kol("val"), fq = kol("fq"), fb = kol("fb"), fs = kol("fs"), pv = kol("prev");
       for (let r = 0; r < f.t.length; r++){
         const t = f.tanggal[f.t[r]], k = f.emiten[f.e[r]];
         semuaTgl.add(t);
-        if (!peta.has(k)) peta.set(k, {nama:f.nama[f.e[r]], h:{}});
-        const o = peta.get(k); o.nama = f.nama[f.e[r]] || o.nama;
-        o.h[t] = [f.c[r], f.v[r]];
+        if (!peta.has(k)) peta.set(k, {nama:f.nama[f.e[r]], hari:{}});
+        const x = peta.get(k); x.nama = f.nama[f.e[r]] || x.nama;
+        x.hari[t] = [f.c[r], o[r]||0, hi[r]||0, lo[r]||0, v[r]||0, val[r]||0, fq[r]||0, fb[r]||0, fs[r]||0, pv[r]||0];
       }
     }
-    const daftarTgl = [...semuaTgl].sort().slice(-HARI_DATA);
+    const daftarTgl = [...semuaTgl].sort().slice(-HARI_DATA), akhirT = daftarTgl[daftarTgl.length-1];
     const kode = [...peta.keys()].sort();
-    const baru = {versi:man.versi, tgl:daftarTgl, kode, nama:[], c:[], v:[]};
+    const baru = {versi:man.versi, tgl:daftarTgl, kode, nama:[], c:[], h:[]};
     for (const k of kode){
-      const o = peta.get(k); let terakhir = null;
-      const c = daftarTgl.map(t => { if (o.h[t] && o.h[t][0]) terakhir = o.h[t][0]; return terakhir; });
-      const akhir = o.h[daftarTgl[daftarTgl.length-1]];
-      baru.nama.push((o.nama||"").replace(/\s*Tbk\.?$/i, ""));
-      baru.c.push(c); baru.v.push(akhir ? akhir[1] : 0);
+      const x = peta.get(k); let terakhir = null;
+      baru.c.push(daftarTgl.map(t => { if (x.hari[t] && x.hari[t][0]) terakhir = x.hari[t][0]; return terakhir; }));
+      const a = x.hari[akhirT];
+      baru.h.push(a ? a.slice(1) : [0,0,0,0,0,0,0,0,0]);
+      baru.nama.push((x.nama||"").replace(/\s*Tbk\.?$/i, ""));
     }
     D = baru; dataGalat = null;
-    tulis("harga", D);
+    tulis("harga2", D);
   }catch(e){
     dataGalat = D ? "Tidak bisa memperbarui harga (sedang offline?). Memakai data terakhir yang tersimpan." : "Data harga belum bisa diambil. Periksa koneksi internet lalu buka lagi menu ini.";
   }
   dataMemuat = false;
   if (layarAktif === "lySimulator") gambarSimulator();
+  if (layarAktif === "lyDetail" && emAktif) bukaDetail(emAktif, true);
   if (layarAktif === "lyJurnal") gambarJurnal();
   gambarHeader();
 }
 function idx(kode){ return D ? D.kode.indexOf(kode) : -1; }
 function hargaAkhir(kode){ const i = idx(kode); if (i < 0) return null; const c = D.c[i]; return c[c.length-1]; }
 function tglAkhir(){ return D ? D.tgl[D.tgl.length-1] : null; }
-function aktifHariIni(kode){ const i = idx(kode); return i >= 0 && D.v[i] > 0; }
+function aktifHariIni(kode){ const i = idx(kode); return i >= 0 && D.h[i][3] > 0; }
+function ubahHari(kode){
+  const i = idx(kode); if (i < 0) return 0;
+  const c = D.c[i], akhir = c[c.length-1], prev = D.h[i][8] || c[c.length-2] || akhir;
+  return prev ? (akhir - prev) / prev * 100 : 0;
+}
 
 /* ===================================================================
    SIMULATOR
    =================================================================== */
-let emAktif = null;
-function nilaiPortofolio(){
+let emAktif = null, tabSim = "porto";
+function nilaiSaham(){
   let n = 0;
   for (const [k,p] of Object.entries(S.sim.posisi)){ const h = hargaAkhir(k) || p.avg; n += h * p.lot * 100; }
   return n;
 }
+function spark(kode){
+  const i = idx(kode); if (i < 0) return "";
+  const d = D.c[i].slice(-20).filter(v => v != null); if (d.length < 2) return "";
+  const mn = Math.min(...d), mx = Math.max(...d), r = mx - mn || 1;
+  const pts = d.map((v,j) => (j/(d.length-1)*52).toFixed(1) + "," + (24 - (v-mn)/r*22).toFixed(1)).join(" ");
+  const w = d[d.length-1] >= d[0] ? "var(--hijau)" : "var(--merah)";
+  return `<svg class="spark" viewBox="0 0 52 26"><polyline fill="none" stroke="${w}" stroke-width="1.6" points="${pts}"/></svg>`;
+}
+function barisSaham(kode, mode){
+  const i = idx(kode); const nama = i >= 0 ? D.nama[i] : "";
+  const h = hargaAkhir(kode), p = S.sim.posisi[kode];
+  let ket, kanan, awas = "";
+  if (mode === "porto"){
+    const hh = h || p.avg, ur = (hh - p.avg) / p.avg * 100;
+    ket = angka(p.lot) + " lot · avg " + angka(p.avg);
+    kanan = `<div class="harga">Rp${ringkas(hh*p.lot*100)}</div>${chip(ur)}`;
+    if (h && p.stop && h < p.stop) awas = ` <span class="turun" title="Di bawah batas rugi">⚠</span>`;
+  } else {
+    ket = mode === "aktif" ? "Nilai " + ringkas(D.h[i][4]) : esc(nama);
+    kanan = `<div class="harga">${h ? angka(h) : "–"}</div>${chip(ubahHari(kode))}`;
+  }
+  return `<div class="baris" data-k="${kode}"><div class="logo" style="background:${warnaLogo(kode)}">${kode}</div>
+    <div class="tengah"><div class="kode">${kode}${awas}</div><div class="nama">${ket}</div></div>${D ? spark(kode) : ""}
+    <div class="kanan">${kanan}</div></div>`;
+}
+function pasangKlikBaris(wadah){ wadah.querySelectorAll(".baris[data-k]").forEach(b => b.onclick = () => bukaDetail(b.dataset.k)); }
+
+document.querySelectorAll("#simTab span").forEach(t => t.onclick = () => { tabSim = t.dataset.t; gambarSimulator(); });
 function gambarSimulator(){
   const kunci = !simTerbuka();
   $("simKunci").classList.toggle("sembunyi", !kunci);
   $("simIsi").classList.toggle("sembunyi", kunci);
   if (kunci) return;
-  if (!D && !dataGalat){ $("simTglData").textContent = "Memuat harga dari data TITEN…"; muatData(); }
-  const total = S.sim.kas + nilaiPortofolio(), ret = (total - MODAL) / MODAL * 100;
-  $("simKas").textContent = rp(S.sim.kas);
-  $("simTotal").innerHTML = `<span class="${ret>=0?"naik":"turun"}">${rp(total)} (${pct(ret)})</span>`;
-  $("simTglData").innerHTML = D ? "Harga penutupan BEI per <b>" + fmtTgl(tglAkhir()) + "</b>" + (dataGalat ? "<br>" + esc(dataGalat) : "") : (dataGalat ? esc(dataGalat) : "Memuat harga…");
-  if (D && !$("daftarEm").childElementCount){
-    const frag = document.createDocumentFragment();
-    D.kode.forEach((k,i) => { if (D.v[i] > 0){ const o = document.createElement("option"); o.value = k; o.label = D.nama[i]; o.textContent = D.nama[i]; frag.appendChild(o); } });
-    $("daftarEm").appendChild(frag);
-    $("saranEm").innerHTML = ["BBCA","BBRI","BMRI","TLKM","ASII","ANTM","UNVR","ICBP"].filter(k => idx(k) >= 0)
-      .map(k => `<button class="chip" data-k="${k}">${k}</button>`).join("");
-    $("saranEm").querySelectorAll(".chip").forEach(c => c.onclick = () => { $("cariEm").value = c.dataset.k; pilihEmiten(c.dataset.k); });
+  if (!D && !dataGalat) muatData();
+  document.querySelectorAll("#simTab span").forEach(t => t.classList.toggle("on", t.dataset.t === tabSim));
+  document.querySelectorAll("#simIsi [data-p]").forEach(p => p.classList.toggle("sembunyi", p.dataset.p !== tabSim));
+  const saham = nilaiSaham(), total = S.sim.kas + saham, untung = total - MODAL;
+  $("simTotal").textContent = rp(total);
+  $("simReturn").innerHTML = chip(untung, (untung >= 0 ? "+" : "-") + rp(Math.abs(untung)).replace("-","") + " (" + pct(untung/MODAL*100) + ")");
+  $("simKas").textContent = "Rp" + ringkas(S.sim.kas);
+  $("simSaham").textContent = "Rp" + ringkas(saham);
+  $("simTgl").textContent = D ? fmtTglPendek(tglAkhir()) : "…";
+  $("simPesan").textContent = dataGalat || (!D ? "Memuat harga dari data TITEN…" : "");
+  if (tabSim === "porto"){
+    const pos = Object.keys(S.sim.posisi), urut = $("urutPorto").value;
+    const nilai = k => (hargaAkhir(k) || S.sim.posisi[k].avg) * S.sim.posisi[k].lot;
+    const ur = k => ((hargaAkhir(k) || S.sim.posisi[k].avg) - S.sim.posisi[k].avg) / S.sim.posisi[k].avg;
+    pos.sort((a,b) => urut === "kode" ? a.localeCompare(b) : urut === "ur" ? ur(b) - ur(a) : nilai(b) - nilai(a));
+    $("daftarPorto").innerHTML = pos.length ? pos.map(k => barisSaham(k, "porto")).join("")
+      : `<div class="kosong">Belum punya saham.<br>Cari saham di tab <b>Cari saham</b> atau <b>Paling aktif</b>.</div>`;
+    pasangKlikBaris($("daftarPorto"));
   }
-  if (emAktif && D) pilihEmiten(emAktif);
-  gambarPorto();
+  if (tabSim === "cari") gambarCari();
+  if (tabSim === "aktif") gambarAktif();
 }
-$("cariEm").addEventListener("input", () => {
-  const v = $("cariEm").value.trim().toUpperCase();
-  if (D && idx(v) >= 0) pilihEmiten(v);
-});
-$("cariEm").addEventListener("change", () => {
-  if (!D) return;
-  let v = $("cariEm").value.trim().toUpperCase();
-  if (idx(v) < 0){ const j = D.nama.findIndex(n => n.toUpperCase().includes(v)); if (j >= 0) v = D.kode[j]; }
-  if (idx(v) >= 0){ $("cariEm").value = v; pilihEmiten(v); }
-});
+$("urutPorto").onchange = gambarSimulator;
+function gambarCari(){
+  if (!D){ $("hasilCari").innerHTML = `<div class="kosong">Memuat data…</div>`; return; }
+  const q = $("cariEm").value.trim().toUpperCase();
+  let daftar;
+  if (!q) daftar = ["BBCA","BBRI","BMRI","BBNI","TLKM","ASII","ANTM","UNVR","ICBP","GOTO"].filter(k => idx(k) >= 0);
+  else {
+    const awal = D.kode.filter(k => k.startsWith(q));
+    const isi = D.kode.filter(k => !k.startsWith(q) && k.includes(q));
+    const nama = D.kode.filter((k,i) => !k.includes(q) && D.nama[i].toUpperCase().includes(q));
+    daftar = awal.concat(isi, nama).slice(0, 40);
+  }
+  $("hasilCari").innerHTML = (q ? "" : `<div class="pad label" style="padding-top:6px">Saran</div>`) +
+    (daftar.length ? daftar.map(k => barisSaham(k, "cari")).join("") : `<div class="kosong">Tidak ada saham yang cocok.</div>`);
+  pasangKlikBaris($("hasilCari"));
+}
+$("cariEm").oninput = gambarCari;
+function gambarAktif(){
+  if (!D){ $("daftarAktif").innerHTML = `<div class="kosong">Memuat data…</div>`; return; }
+  const urut = D.kode.map((k,i) => [k, D.h[i][4]]).filter(x => x[1] > 0).sort((a,b) => b[1] - a[1]).slice(0, 20);
+  $("ketAktif").textContent = "20 saham dengan nilai transaksi terbesar pada " + fmtTgl(tglAkhir()) + ".";
+  $("daftarAktif").innerHTML = urut.map(x => barisSaham(x[0], "aktif")).join("");
+  pasangKlikBaris($("daftarAktif"));
+}
 
+/* ---- detail saham ---- */
+let rentang = 66;
+document.querySelectorAll("#dRentang span").forEach(s => s.onclick = () => { rentang = +s.dataset.n; bukaDetail(emAktif, true); });
 function gambarGrafik(svg, c, pos){
-  const W = 400, H = 180, kiri = 6, kanan = 48, atas = 10, bawah = 22;
-  const data = c.slice(-40), n = data.length;
-  const ma = data.map((_,i) => { const awal = c.length - n + i - 19; if (awal < 0) return null; let s = 0; for (let j = awal; j < awal + 20; j++) s += c[j]; return s/20; });
+  const W = 400, H = 200, kanan = 46, atas = 12, bawah = 22;
+  const data = c.slice(-rentang).filter(v => v != null), n = data.length;
+  if (n < 2){ svg.innerHTML = ""; return; }
+  const geser = c.length - n;
+  const ma = data.map((_,i) => { const awal = geser + i - 19; if (awal < 0) return null; let s = 0; for (let j = awal; j < awal + 20; j++) s += c[j]; return s/20; });
   const nilai = data.concat(ma.filter(x => x != null)).concat(pos ? [pos.target, pos.stop].filter(Boolean) : []);
   let mn = Math.min(...nilai), mx = Math.max(...nilai); if (mx === mn){ mx += 1; mn -= 1; }
-  const pad = (mx - mn) * .08; mn -= pad; mx += pad;
-  const x = i => kiri + i / Math.max(1, n-1) * (W - kiri - kanan);
+  const pad = (mx - mn) * .07; mn -= pad; mx += pad;
+  const x = i => i / (n-1) * (W - kanan);
   const y = v => atas + (mx - v) / (mx - mn) * (H - atas - bawah);
-  const garis = arr => arr.map((v,i) => v == null ? null : x(i).toFixed(1) + "," + y(v).toFixed(1)).filter(Boolean).join(" ");
-  const warna = data[n-1] >= data[0] ? "var(--naik)" : "var(--turun)";
-  let s = "";
-  for (let k = 0; k <= 3; k++){ const v = mn + (mx-mn) * k/3; s += `<line x1="${kiri}" x2="${W-kanan}" y1="${y(v)}" y2="${y(v)}" stroke="var(--garis)"/><text x="${W-kanan+4}" y="${y(v)+4}" font-size="11" fill="var(--redup)">${angka(v)}</text>`; }
+  const titik = arr => arr.map((v,i) => v == null ? null : x(i).toFixed(1) + "," + y(v).toFixed(1)).filter(Boolean).join(" ");
+  const w = data[n-1] >= data[0] ? "var(--hijau)" : "var(--merah)";
+  let s = `<defs><linearGradient id="gArea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${w}" stop-opacity=".26"/><stop offset="1" stop-color="${w}" stop-opacity="0"/></linearGradient></defs>`;
+  for (let k = 0; k <= 3; k++){ const v = mn + (mx-mn) * k/3; s += `<line x1="0" x2="${W-kanan}" y1="${y(v)}" y2="${y(v)}" stroke="var(--garis)"/><text x="${W-kanan+4}" y="${y(v)+4}" font-size="10.5" fill="var(--redup)">${angka(v)}</text>`; }
   if (pos){
-    if (pos.target) s += `<line x1="${kiri}" x2="${W-kanan}" y1="${y(pos.target)}" y2="${y(pos.target)}" stroke="var(--naik)" stroke-dasharray="2 3"/><text x="${kiri+2}" y="${y(pos.target)-3}" font-size="10.5" fill="var(--naik)">target ${angka(pos.target)}</text>`;
-    if (pos.stop) s += `<line x1="${kiri}" x2="${W-kanan}" y1="${y(pos.stop)}" y2="${y(pos.stop)}" stroke="var(--turun)" stroke-dasharray="2 3"/><text x="${kiri+2}" y="${y(pos.stop)+12}" font-size="10.5" fill="var(--turun)">batas rugi ${angka(pos.stop)}</text>`;
+    if (pos.target) s += `<line x1="0" x2="${W-kanan}" y1="${y(pos.target)}" y2="${y(pos.target)}" stroke="var(--hijau)" stroke-dasharray="3 4"/><text x="4" y="${y(pos.target)-4}" font-size="10.5" fill="var(--hijau)">target ${angka(pos.target)}</text>`;
+    if (pos.stop) s += `<line x1="0" x2="${W-kanan}" y1="${y(pos.stop)}" y2="${y(pos.stop)}" stroke="var(--merah)" stroke-dasharray="3 4"/><text x="4" y="${y(pos.stop)+13}" font-size="10.5" fill="var(--merah)">batas rugi ${angka(pos.stop)}</text>`;
   }
-  s += `<polyline fill="none" stroke="var(--redup)" stroke-width="1.4" stroke-dasharray="5 4" points="${garis(ma)}"/>`;
-  s += `<polyline fill="none" stroke="${warna}" stroke-width="2.2" points="${garis(data)}"/>`;
+  s += `<polygon fill="url(#gArea)" points="0,${H-bawah} ${titik(data)} ${x(n-1)},${H-bawah}"/>`;
+  s += `<polyline fill="none" stroke="var(--redup)" stroke-width="1.2" stroke-dasharray="4 4" points="${titik(ma)}"/>`;
+  s += `<polyline fill="none" stroke="${w}" stroke-width="2" points="${titik(data)}"/>`;
+  s += `<circle cx="${x(n-1)}" cy="${y(data[n-1])}" r="3.5" fill="${w}"/>`;
   const t0 = D.tgl[D.tgl.length - n], t1 = D.tgl[D.tgl.length-1];
-  s += `<text x="${kiri}" y="${H-5}" font-size="11" fill="var(--redup)">${fmtTgl(t0)}</text><text x="${W-kanan}" y="${H-5}" font-size="11" fill="var(--redup)" text-anchor="end">${fmtTgl(t1)}</text>`;
+  s += `<text x="0" y="${H-6}" font-size="10.5" fill="var(--redup)">${fmtTglPendek(t0)}</text><text x="${W-kanan}" y="${H-6}" font-size="10.5" fill="var(--redup)" text-anchor="end">${fmtTglPendek(t1)}</text>`;
   svg.innerHTML = s;
 }
-
-function pilihEmiten(kode){
+function bukaDetail(kode, tetap){
   if (!D) return;
   const i = idx(kode); if (i < 0) return;
   emAktif = kode;
-  const c = D.c[i], akhir = c[c.length-1], kmrn = c[c.length-2] || akhir;
-  $("emDetail").classList.remove("sembunyi");
-  $("emKode").textContent = kode;
-  $("emNama").textContent = D.nama[i];
-  $("emHarga").textContent = angka(akhir);
-  const ub = kmrn ? (akhir - kmrn) / kmrn * 100 : 0;
-  $("emUbah").innerHTML = `<span class="${ub>=0?"naik":"turun"}">${pct(ub)}</span>`;
-  gambarGrafik($("grafik"), c.filter(v => v != null), S.sim.posisi[kode]);
+  const c = D.c[i], akhir = c[c.length-1], [o, hi, lo, v, val, fq, fb, fs, prev] = D.h[i];
+  const ub = ubahHari(kode), sel = prev ? akhir - prev : 0;
+  $("dLogo").textContent = kode; $("dLogo").style.background = warnaLogo(kode);
+  $("dKode").textContent = kode; $("dNama").textContent = D.nama[i];
+  $("dHarga").textContent = angka(akhir);
+  $("dUbah").innerHTML = `<span class="${ub>0?"naik":ub<0?"turun":""}" style="font-weight:700">${sel>0?"+":""}${angka(sel)} (${pct(ub)})</span> <span class="redup">· penutupan ${fmtTgl(tglAkhir())}</span>`;
+  document.querySelectorAll("#dRentang span").forEach(s => s.classList.toggle("on", +s.dataset.n === rentang));
+  const p = S.sim.posisi[kode];
+  gambarGrafik($("dGrafik"), c, p);
   const aktif = aktifHariIni(kode);
-  $("emLibur").classList.toggle("sembunyi", aktif);
-  $("emBeliBox").classList.toggle("sembunyi", !aktif);
-  $("keJual").classList.toggle("sembunyi", !(aktif && S.sim.posisi[kode]));
-  hitungBeli();
+  $("dLibur").classList.toggle("sembunyi", aktif);
+  $("dPosisi").classList.toggle("sembunyi", !p);
+  if (p){
+    const ur = (akhir - p.avg) / p.avg * 100, lewat = akhir < p.stop;
+    $("dPosisi").innerHTML = `<b>Posisi saya</b>
+      <div class="info" style="background:none;padding:6px 0 0">
+      <div class="r"><span>Lot · rata-rata</span><b>${angka(p.lot)} lot · ${angka(p.avg)}</b></div>
+      <div class="r"><span>Nilai</span><b>${rp(akhir*p.lot*100)}</b></div>
+      <div class="r"><span>Untung/rugi</span><b class="${ur>0?"naik":ur<0?"turun":""}">${pct(ur)}</b></div>
+      <div class="r"><span>Rencana</span><b>target ${angka(p.target)} · batas rugi ${angka(p.stop)}</b></div></div>
+      ${lewat ? `<div class="peringatan merah">Harga sudah di bawah batas rugimu. Menurut rencana, saham ini seharusnya dijual.</div>` : ""}`;
+  }
+  const netAsing = (fb - fs) * akhir;
+  $("dStatJudul").textContent = "Statistik " + fmtTglPendek(tglAkhir());
+  $("dStat").innerHTML = [["Buka", o ? angka(o) : "–"], ["Volume (lot)", v ? ringkas(v/100) : "0"], ["Tertinggi", hi ? angka(hi) : "–"], ["Nilai", val ? ringkas(val) : "0"],
+    ["Terendah", lo ? angka(lo) : "–"], ["Frekuensi", fq ? angka(fq) : "0"], ["Sebelumnya", prev ? angka(prev) : "–"],
+    ["Net asing", (fb || fs) ? `<span class="${netAsing>0?"naik":netAsing<0?"turun":""}">${netAsing>0?"+":""}${ringkas(netAsing)}</span>` : "–"]]
+    .map(([a,b]) => `<div><span>${a}</span><b>${b}</b></div>`).join("");
+  $("dJual").classList.toggle("sembunyi", !(aktif && p));
+  $("dBeli").classList.toggle("sembunyi", !aktif);
+  $("dAksi").classList.toggle("sembunyi", !aktif);
+  if (!tetap) buka("lyDetail"); else $("judulAtas").textContent = kode;
 }
-function hitungBeli(){
-  if (!emAktif) return;
-  const lot = Math.max(1, Math.floor(+$("lot").value || 1)), h = hargaAkhir(emAktif);
+$("dBeli").onclick = () => bukaOrder(emAktif);
+$("dJual").onclick = () => bukaJual(emAktif);
+
+/* ---- tombol − / + ---- */
+document.querySelectorAll(".pm").forEach(b => b.onclick = () => {
+  const el = $(b.dataset.f), a = +b.dataset.a;
+  if (b.dataset.f === "oLot" || b.dataset.f === "jLot"){
+    let v = Math.max(1, (Math.floor(+el.value) || 0) + a);
+    if (b.dataset.f === "jLot") v = Math.min(v, (S.sim.posisi[emAktif] || {lot:1}).lot);
+    el.value = v;
+  } else {
+    const h = hargaAkhir(emAktif);
+    let v = +el.value || h;
+    v = Math.max(1, v + a * fraksi(v + (a < 0 ? -1 : 0)));
+    el.value = v;
+  }
+  el.dispatchEvent(new Event("input"));
+});
+
+/* ===================================================================
+   ORDER BELI + RENCANA
+   =================================================================== */
+let alasanBeli = new Set();
+function bukaOrder(kode){
+  const h = hargaAkhir(kode);
+  $("oJudul").textContent = "Beli " + kode;
+  $("oKet").textContent = D.nama[idx(kode)] + " · penutupan " + fmtTgl(tglAkhir());
+  $("oHarga").textContent = angka(h);
+  $("oLot").value = 1; $("oTarget").value = ""; $("oStop").value = ""; $("oJelas").value = "";
+  alasanBeli = new Set();
+  document.querySelectorAll("#oAlasan button").forEach(c => c.classList.remove("on"));
+  hitungOrder();
+  buka("lyOrder");
+}
+document.querySelectorAll("#oAlasan button").forEach(c => c.onclick = () => {
+  c.classList.toggle("on");
+  c.classList.contains("on") ? alasanBeli.add(c.dataset.v) : alasanBeli.delete(c.dataset.v);
+  hitungOrder();
+});
+["oLot","oTarget","oStop","oJelas"].forEach(id => $(id).oninput = hitungOrder);
+function hitungOrder(){
+  const p = hargaAkhir(emAktif), lot = Math.max(1, Math.floor(+$("oLot").value) || 1);
+  const t = +$("oTarget").value, s = +$("oStop").value;
+  const total = lot * 100 * p * (1 + BIAYA_BELI), kurang = total > S.sim.kas;
+  $("oTotal").textContent = rp(total);
+  $("oKasKurang").classList.toggle("sembunyi", !kurang);
+  $("oAwasTeman").classList.toggle("sembunyi", !alasanBeli.has("teman"));
+  const pesan = []; let ok = !kurang, rasio = 0, pr = 0;
+  if (s > 0 && s < p){
+    const rugi = (p - s) * lot * 100; pr = rugi / MODAL * 100;
+    $("oRisiko").textContent = rp(rugi) + " (" + pr.toFixed(2).replace(".",",") + "%)";
+    if (pr > 2){ ok = false; pesan.push(["merah", "Risiko lebih dari 2% modal. Kurangi lot atau naikkan batas rugi."]); }
+  } else {
+    $("oRisiko").textContent = s >= p && s ? "batas rugi harus di bawah harga" : "–"; ok = false;
+  }
+  if (t > p && s > 0 && s < p){ rasio = (t - p) / (p - s); $("oRasio").textContent = rasio.toFixed(1).replace(".",",") + " : 1";
+    if (rasio < 1.5) pesan.push(["", "Calon untung kurang dari 1,5 kali calon rugi. Boleh, tapi skor disiplin berkurang."]); }
+  else { $("oRasio").textContent = t && t <= p ? "target harus di atas harga" : "–"; if (!(t > p)) ok = false; }
+  if (!alasanBeli.size) ok = false;
+  const jelas = $("oJelas").value.trim();
+  if (jelas.length < 20) ok = false;
+  const sk = skorBeli({alasan:[...alasanBeli], rasio, jelas});
+  $("oSkor").innerHTML = (t > p && s > 0 && s < p) ? `<span class="${sk>=80?"naik":sk>=60?"":"turun"}">${sk}</span>` : "–";
+  $("oAwas").innerHTML = pesan.map(([k,m]) => `<div class="peringatan ${k}">⚠ ${m}</div>`).join("");
+  $("oBeli").disabled = !ok;
+  $("oBeli").textContent = ok ? "Beli " + angka(lot) + " lot" : "Lengkapi rencana";
+  return rasio;
+}
+$("oBatal").onclick = () => bukaDetail(emAktif);
+$("oBeli").onclick = () => {
+  const rasio = hitungOrder(); if ($("oBeli").disabled) return;
+  const kode = emAktif, h = hargaAkhir(kode), lot = Math.max(1, Math.floor(+$("oLot").value));
   const nilai = lot * 100 * h, biaya = nilai * BIAYA_BELI;
-  $("biaya").value = rp(biaya);
-  $("total").textContent = rp(nilai + biaya);
-  const kurang = nilai + biaya > S.sim.kas;
-  $("kasKurang").classList.toggle("sembunyi", !kurang);
-  $("keJurnal").disabled = kurang;
-}
-$("lot").oninput = hitungBeli;
-$("keJurnal").onclick = () => {
-  const lot = Math.max(1, Math.floor(+$("lot").value || 1));
-  S.sim.rencana = {kode:emAktif, lot, harga:hargaAkhir(emAktif), tgl:tglAkhir()};
-  simpan(); siapkanRencana(true); buka("lyJurnal");
+  if (nilai + biaya > S.sim.kas){ alert("Kas tidak cukup."); return; }
+  const j = {jenis:"beli", kode, lot, harga:h, tgl:tglAkhir(), waktu:new Date().toISOString(),
+    alasan:[...alasanBeli], jelas:$("oJelas").value.trim(), target:+$("oTarget").value, stop:+$("oStop").value, rasio:+rasio.toFixed(2)};
+  j.skor = skorBeli(j);
+  S.sim.jurnal.push(j);
+  S.sim.kas -= nilai + biaya;
+  const p = S.sim.posisi[kode];
+  if (p){ const lb = p.lot + lot; p.avg = (p.avg*p.lot + h*lot) / lb; p.lot = lb; p.target = j.target; p.stop = j.stop; p.tglBeli = j.tgl; }
+  else S.sim.posisi[kode] = {lot, avg:h, target:j.target, stop:j.stop, tglBeli:j.tgl};
+  simpan(); gambarHeader();
+  alert("Pembelian dicatat. Skor disiplin rencana ini: " + j.skor + ".");
+  bukaDetail(kode);
 };
 
-function gambarPorto(){
-  const tb = $("tPorto").tBodies[0], pos = Object.entries(S.sim.posisi);
-  $("portoKosong").classList.toggle("sembunyi", pos.length > 0);
-  $("portoWadah").classList.toggle("sembunyi", pos.length === 0);
-  tb.innerHTML = pos.map(([k,p]) => {
-    const h = hargaAkhir(k) || p.avg, ur = (h - p.avg) / p.avg * 100, lewat = p.stop && h < p.stop;
-    return `<tr class="klik" data-k="${k}"><td>${k}${lewat?' <span class="turun" title="Di bawah batas rugi">⚠</span>':""}</td><td>${angka(p.lot)}</td><td>${angka(p.avg)}</td><td>${angka(h)}</td>
-      <td class="${ur>=0?"naik":"turun"}">${pct(ur)}</td><td>${ringkas(h*p.lot*100)}</td></tr>`;
-  }).join("");
-  tb.querySelectorAll("tr").forEach(tr => tr.onclick = () => { $("cariEm").value = tr.dataset.k; pilihEmiten(tr.dataset.k); $("kartuEmiten").scrollIntoView({behavior:"smooth"}); });
-}
-
-/* ---- jual ---- */
+/* ===================================================================
+   ORDER JUAL
+   =================================================================== */
 let alasanJual = null;
-$("keJual").onclick = () => bukaJual(emAktif);
 function bukaJual(kode){
   const p = S.sim.posisi[kode]; if (!p) return;
-  const h = hargaAkhir(kode);
-  $("kartuJual").style.display = "";
-  $("jualKode").textContent = kode + " @" + angka(h);
-  $("jualInfo").textContent = "Kamu punya " + angka(p.lot) + " lot, rata-rata beli " + angka(p.avg) + ". Rencana: target " + angka(p.target) + ", batas rugi " + angka(p.stop) + ".";
-  const lewat = cekLewatStop(kode);
-  $("jualAwas").classList.toggle("sembunyi", !(h < p.stop || lewat));
-  $("jualAwas").textContent = h < p.stop ? "Harga sudah di bawah batas rugimu. Menurut rencana, saham ini seharusnya dijual." : lewat ? "Sejak " + fmtTgl(lewat) + " harga sempat menutup di bawah batas rugimu tanpa dijual." : "";
-  $("jualLot").value = p.lot;
-  $("jualCatatan").value = "";
+  const h = hargaAkhir(kode), lewat = cekLewatStop(kode);
+  $("jJudul").textContent = "Jual " + kode;
+  $("jKet").textContent = "Punya " + angka(p.lot) + " lot · avg " + angka(p.avg) + " · target " + angka(p.target) + " · batas rugi " + angka(p.stop);
+  $("jHarga").textContent = angka(h);
+  $("jAwas").classList.toggle("sembunyi", !(h < p.stop || lewat));
+  $("jAwas").textContent = h < p.stop ? "Harga sudah di bawah batas rugimu. Menurut rencana, saham ini seharusnya dijual."
+    : lewat ? "Sejak " + fmtTgl(lewat) + " harga sempat menutup di bawah batas rugimu tanpa dijual." : "";
+  $("jLot").value = p.lot; $("jCatatan").value = "";
   alasanJual = null;
-  document.querySelectorAll("#jualAlasan .chip").forEach(c => c.classList.remove("on"));
+  document.querySelectorAll("#jAlasan button").forEach(c => c.classList.remove("on"));
   hitungJual();
-  $("kartuJual").scrollIntoView({behavior:"smooth"});
+  buka("lyJual");
 }
-document.querySelectorAll("#jualAlasan .chip").forEach(c => c.onclick = () => {
-  document.querySelectorAll("#jualAlasan .chip").forEach(x => x.classList.toggle("on", x === c));
+document.querySelectorAll("#jAlasan button").forEach(c => c.onclick = () => {
+  document.querySelectorAll("#jAlasan button").forEach(x => x.classList.toggle("on", x === c));
   alasanJual = c.dataset.v; hitungJual();
 });
-$("jualLot").oninput = hitungJual; $("jualCatatan").oninput = hitungJual;
+$("jLot").oninput = hitungJual; $("jCatatan").oninput = hitungJual;
 function hitungJual(){
   const p = S.sim.posisi[emAktif]; if (!p) return;
-  const lot = Math.floor(+$("jualLot").value || 0), h = hargaAkhir(emAktif);
-  const ok = lot >= 1 && lot <= p.lot && alasanJual && $("jualCatatan").value.trim().length >= 10;
-  $("jualTerima").textContent = lot >= 1 ? rp(lot * 100 * h * (1 - BIAYA_JUAL)) : "–";
-  $("jualKirim").disabled = !ok;
-  $("jualKirim").textContent = ok ? "Jual " + lot + " lot" : "Pilih alasan & tulis catatan";
+  const lot = Math.floor(+$("jLot").value || 0), h = hargaAkhir(emAktif);
+  const terima = lot * 100 * h * (1 - BIAYA_JUAL), modal = lot * 100 * p.avg * (1 + BIAYA_BELI);
+  $("jTerima").textContent = lot >= 1 ? rp(terima) : "–";
+  $("jHasil").innerHTML = lot >= 1 ? `<span class="${terima>=modal?"naik":"turun"}">${rp(terima - modal)} (${pct((terima-modal)/modal*100)})</span>` : "–";
+  const ok = lot >= 1 && lot <= p.lot && alasanJual && $("jCatatan").value.trim().length >= 10;
+  $("jKirim").disabled = !ok;
+  $("jKirim").textContent = ok ? "Jual " + angka(lot) + " lot" : !alasanJual ? "Pilih alasan" : "Tulis catatan";
 }
-$("jualBatal").onclick = () => { $("kartuJual").style.display = "none"; };
-$("jualKirim").onclick = () => {
+$("jBatal").onclick = () => bukaDetail(emAktif);
+$("jKirim").onclick = () => {
   const kode = emAktif, p = S.sim.posisi[kode], h = hargaAkhir(kode);
-  const lot = Math.floor(+$("jualLot").value), terima = lot * 100 * h * (1 - BIAYA_JUAL);
-  const modalTerjual = lot * 100 * p.avg * (1 + BIAYA_BELI);
-  const lewat = cekLewatStop(kode);
+  const lot = Math.floor(+$("jLot").value), terima = lot * 100 * h * (1 - BIAYA_JUAL);
+  const modal = lot * 100 * p.avg * (1 + BIAYA_BELI), lewat = cekLewatStop(kode);
   const j = {jenis:"jual", kode, lot, harga:h, tgl:tglAkhir(), waktu:new Date().toISOString(), alasan:alasanJual,
-    catatan:$("jualCatatan").value.trim(), target:p.target, stop:p.stop, avg:p.avg, hasil:(terima - modalTerjual) / modalTerjual * 100};
+    catatan:$("jCatatan").value.trim(), target:p.target, stop:p.stop, avg:p.avg, hasil:(terima - modal) / modal * 100};
   j.skor = skorJual(j, lewat); j.lewatStop = lewat || null;
   S.sim.jurnal.push(j);
   S.sim.kas += terima;
   p.lot -= lot; if (p.lot <= 0) delete S.sim.posisi[kode];
   simpan(); gambarHeader();
-  $("kartuJual").style.display = "none";
   alert("Terjual. Skor disiplin transaksi ini: " + j.skor + ".");
-  gambarSimulator();
+  bukaDetail(kode);
 };
 function cekLewatStop(kode){
   // tanggal pertama (sesudah tanggal beli, sebelum hari terakhir) harga menutup di bawah batas rugi
@@ -1119,7 +1348,7 @@ function cekLewatStop(kode){
 }
 
 /* ===================================================================
-   JURNAL & SKOR DISIPLIN
+   SKOR DISIPLIN & JURNAL
    =================================================================== */
 function skorBeli(j){
   let s = 100;
@@ -1144,96 +1373,29 @@ function skorDisiplin(){
   return Math.round(a.reduce((x,j) => x + j.skor, 0) / a.length);
 }
 
-let alasanBeli = new Set();
-function siapkanRencana(bersihkan){
-  const r = S.sim.rencana;
-  $("kartuRencana").classList.toggle("sembunyi", !r);
-  $("kartuTanpaRencana").classList.toggle("sembunyi", !!r);
-  if (!r) return;
-  if (bersihkan){
-    alasanBeli = new Set();
-    document.querySelectorAll("#rAlasan .chip").forEach(c => c.classList.remove("on"));
-    $("rJelas").value = ""; $("rTarget").value = ""; $("rStop").value = "";
-    $("awasTeman").classList.add("sembunyi");
-  }
-  $("rKode").textContent = r.kode + " @" + angka(r.harga);
-  $("rInfo").textContent = angka(r.lot) + " lot · nilai " + rp(r.lot*100*r.harga) + " · harga penutupan " + fmtTgl(r.tgl);
-  cekRencana();
-}
-document.querySelectorAll("#rAlasan .chip").forEach(c => c.onclick = () => {
-  c.classList.toggle("on");
-  c.classList.contains("on") ? alasanBeli.add(c.dataset.v) : alasanBeli.delete(c.dataset.v);
-  $("awasTeman").classList.toggle("sembunyi", !alasanBeli.has("teman"));
-  cekRencana();
-});
-["rJelas","rTarget","rStop"].forEach(id => $(id).oninput = cekRencana);
-function cekRencana(){
-  const r = S.sim.rencana; if (!r) return;
-  const p = r.harga, t = +$("rTarget").value, s = +$("rStop").value;
-  let ok = true, rasio = 0;
-  if (s > 0 && s < p){
-    const rugi = (p - s) * r.lot * 100, pr = rugi / MODAL * 100;
-    $("rRisiko").textContent = rp(rugi) + " (" + pr.toFixed(2).replace(".",",") + "%)";
-    $("awasRisiko").classList.toggle("sembunyi", pr <= 2);
-    if (pr > 2) ok = false;
-    if (t > p){ rasio = (t - p) / (p - s); $("rRasio").textContent = rasio.toFixed(1).replace(".",",") + " : 1"; }
-    else $("rRasio").textContent = "–";
-  } else {
-    $("rRisiko").textContent = s >= p && s ? "batas rugi harus di bawah harga beli" : "–";
-    $("rRasio").textContent = "–"; $("awasRisiko").classList.add("sembunyi"); ok = false;
-  }
-  $("awasRasio").classList.toggle("sembunyi", !(rasio > 0 && rasio < 1.5));
-  if (!(t > p)) ok = false;
-  if (!alasanBeli.size) ok = false;
-  if ($("rJelas").value.trim().length < 20) ok = false;
-  if (r.lot*100*r.harga*(1+BIAYA_BELI) > S.sim.kas) ok = false;
-  $("rBeli").disabled = !ok;
-  $("rBeli").textContent = ok ? "Beli " + angka(r.lot) + " lot " + r.kode : "Lengkapi jurnal";
-  return rasio;
-}
-$("rBatal").onclick = () => { S.sim.rencana = null; simpan(); siapkanRencana(); buka("lySimulator"); };
-$("rBeli").onclick = () => {
-  const r = S.sim.rencana, rasio = cekRencana();
-  if ($("rBeli").disabled) return;
-  // harga dikunci saat rencana dibuat; kalau data sudah berganti hari, pakai harga terbaru
-  const h = hargaAkhir(r.kode) || r.harga;
-  const nilai = r.lot * 100 * h, biaya = nilai * BIAYA_BELI;
-  if (nilai + biaya > S.sim.kas){ alert("Kas tidak cukup."); return; }
-  const j = {jenis:"beli", kode:r.kode, lot:r.lot, harga:h, tgl:tglAkhir(), waktu:new Date().toISOString(),
-    alasan:[...alasanBeli], jelas:$("rJelas").value.trim(), target:+$("rTarget").value, stop:+$("rStop").value, rasio:+rasio.toFixed(2)};
-  j.skor = skorBeli(j);
-  S.sim.jurnal.push(j);
-  S.sim.kas -= nilai + biaya;
-  const p = S.sim.posisi[r.kode];
-  if (p){ const lotBaru = p.lot + r.lot; p.avg = (p.avg*p.lot + h*r.lot) / lotBaru; p.lot = lotBaru; p.target = j.target; p.stop = j.stop; p.tglBeli = j.tgl; }
-  else S.sim.posisi[r.kode] = {lot:r.lot, avg:h, target:j.target, stop:j.stop, tglBeli:j.tgl};
-  S.sim.rencana = null;
-  simpan(); gambarHeader();
-  alert("Pembelian dicatat. Skor disiplin rencana ini: " + j.skor + ".");
-  emAktif = r.kode; buka("lySimulator");
-};
-
 const NAMA_ALASAN = {tren:"Tren naik", support:"Memantul di support", laba:"Laba tumbuh", murah:"Valuasi murah", volume:"Volume di atas rata-rata", berita:"Ada berita", teman:"Ikut teman/medsos",
   target:"Target tercapai", stop:"Kena batas rugi", berubah:"Alasan beli tidak berlaku", kas:"Butuh kas", panik:"Panik/takut"};
 function htmlJurnal(daftar){
   if (!daftar.length) return '<div class="kosong">Belum ada transaksi.</div>';
   return daftar.slice().reverse().map(j => {
-    const kls = j.skor >= 80 ? "" : j.skor >= 60 ? "sedang" : "buruk";
-    if (j.jenis === "beli") return `<div class="jurnal-item ${kls}">
-      <div class="baris"><b>Beli ${esc(j.kode)} · ${angka(j.lot)} lot @${angka(j.harga)}</b><span class="status ${j.skor>=80?"s-ok":j.skor>=60?"s-jalan":"s-buruk"}">${j.skor}</span></div>
-      <div class="redup">${fmtTgl(j.tgl)} · ${j.alasan.map(a => NAMA_ALASAN[a]||a).join(", ")} · target ${angka(j.target)} · batas rugi ${angka(j.stop)} · rasio ${String(j.rasio).replace(".",",")} : 1</div>
-      <div style="font-size:14px;margin-top:4px">"${esc(j.jelas)}"</div></div>`;
-    return `<div class="jurnal-item ${kls}">
-      <div class="baris"><b>Jual ${esc(j.kode)} · ${angka(j.lot)} lot @${angka(j.harga)}</b><span class="status ${j.skor>=80?"s-ok":j.skor>=60?"s-jalan":"s-buruk"}">${j.skor}</span></div>
-      <div class="redup">${fmtTgl(j.tgl)} · ${NAMA_ALASAN[j.alasan]||j.alasan} · hasil <span class="${j.hasil>=0?"naik":"turun"}">${pct(j.hasil)}</span>${j.lewatStop ? ' · <span class="turun">terlambat menjual (di bawah batas rugi sejak ' + fmtTgl(j.lewatStop) + ')</span>' : ""}</div>
-      <div style="font-size:14px;margin-top:4px">"${esc(j.catatan)}"</div></div>`;
+    const sk = `<span class="chip ${j.skor>=80?"naik":j.skor>=60?"netral":"turun"}">${j.skor}</span>`;
+    if (j.jenis === "beli") return `<div class="jur"><div class="r"><b><span class="naik">Beli</span> ${esc(j.kode)} · ${angka(j.lot)} lot @${angka(j.harga)}</b>${sk}</div>
+      <div class="ket">${fmtTgl(j.tgl)} · ${j.alasan.map(a => NAMA_ALASAN[a]||a).join(", ")} · target ${angka(j.target)} · batas rugi ${angka(j.stop)} · rasio ${String(j.rasio).replace(".",",")} : 1</div>
+      <div class="kutip">"${esc(j.jelas)}"</div></div>`;
+    return `<div class="jur"><div class="r"><b><span class="turun">Jual</span> ${esc(j.kode)} · ${angka(j.lot)} lot @${angka(j.harga)}</b>${sk}</div>
+      <div class="ket">${fmtTgl(j.tgl)} · ${NAMA_ALASAN[j.alasan]||j.alasan} · hasil <span class="${j.hasil>=0?"naik":"turun"}">${pct(j.hasil)}</span>${j.lewatStop ? ' · <span class="turun">terlambat menjual (di bawah batas rugi sejak ' + fmtTgl(j.lewatStop) + ')</span>' : ""}</div>
+      <div class="kutip">"${esc(j.catatan)}"</div></div>`;
   }).join("");
 }
+let tabJurnal = "semua";
+document.querySelectorAll("#jurTab span").forEach(t => t.onclick = () => { tabJurnal = t.dataset.t; gambarJurnal(); });
 function gambarJurnal(){
-  siapkanRencana(false);
+  document.querySelectorAll("#jurTab span").forEach(t => t.classList.toggle("on", t.dataset.t === tabJurnal));
   let peringatan = "";
   if (D) for (const [k,p] of Object.entries(S.sim.posisi)){ const h = hargaAkhir(k); if (h && h < p.stop) peringatan += `<div class="peringatan merah">⚠ ${k} ditutup ${angka(h)}, di bawah batas rugimu ${angka(p.stop)}. Rencanamu bilang: jual.</div>`; }
-  $("daftarJurnal").innerHTML = peringatan + htmlJurnal(S.sim.jurnal);
+  $("jurPeringatan").innerHTML = peringatan;
+  const f = {semua:() => true, beli:j => j.jenis === "beli", jual:j => j.jenis === "jual", evaluasi:j => j.skor < 60}[tabJurnal];
+  $("daftarJurnal").innerHTML = htmlJurnal(S.sim.jurnal.filter(f));
 }
 
 /* ===================================================================
@@ -1242,7 +1404,7 @@ function gambarJurnal(){
 function ringkasan(){
   const lulus = MODUL.filter((_,i) => modulLulus(i)).length;
   const nilaiKuis = Object.values(S.kemajuan).map(k => k.kuis).filter(v => v != null);
-  const total = S.sim.kas + nilaiPortofolio();
+  const total = S.sim.kas + nilaiSaham();
   return {
     aplikasi:"TITEN KURIKULUM", versi:VERSI_APP, dibuat:new Date().toISOString(),
     profil:S.profil, mulai:S.mulai, tanggalHarga:tglAkhir(),
@@ -1256,18 +1418,20 @@ function ringkasan(){
 }
 function gambarLaporan(){
   const r = ringkasan();
-  $("kNama").textContent = S.profil ? S.profil.nama : "–";
-  $("kKelas").textContent = S.profil ? S.profil.kelas + (S.profil.sekolah ? " · " + S.profil.sekolah : "") : "";
-  $("kModul").textContent = r.modulLulus + "/" + r.jumlahModul;
-  $("kDisiplin").textContent = r.disiplin == null ? "–" : r.disiplin;
-  $("kKuis").textContent = r.rataKuis == null ? "–" : r.rataKuis;
-  $("kReturn").innerHTML = `<span class="${r.returnPersen>=0?"naik":"turun"}">${pct(r.returnPersen)}</span>`;
+  $("lAvatar").textContent = S.profil ? S.profil.nama.charAt(0).toUpperCase() : "?";
+  $("lNama").textContent = S.profil ? S.profil.nama : "–";
+  $("lKelas").textContent = S.profil ? S.profil.kelas + (S.profil.sekolah ? " · " + S.profil.sekolah : "") : "";
+  $("lModul").textContent = r.modulLulus + "/" + r.jumlahModul;
+  $("lDisiplin").innerHTML = r.disiplin == null ? "–" : `<span class="${r.disiplin>=80?"naik":r.disiplin>=60?"":"turun"}">${r.disiplin}</span>`;
+  $("lKuis").textContent = r.rataKuis == null ? "–" : r.rataKuis;
+  $("lReturn").innerHTML = `<span class="${r.returnPersen>0?"naik":r.returnPersen<0?"turun":""}">${pct(r.returnPersen)}</span>`;
+  $("mTemaKet").textContent = (S.tema === "terang" ? "Terang" : "Gelap") + " ›";
+  $("mGuruKet").textContent = S.guru ? "Aktif ›" : "🔒 ›";
   $("kartuGuru").classList.toggle("sembunyi", !S.guru);
   $("gBukaSemua").checked = !!S.bukaSemua;
-  $("kGuruKet").textContent = S.guru ? "Mode guru aktif di HP ini." : "";
-  $("kVersi").textContent = "Versi " + VERSI_APP;
+  $("lVersi").textContent = "TITEN KURIKULUM · versi " + VERSI_APP;
 }
-$("kUnduh").onclick = () => {
+$("mUnduh").onclick = () => {
   const r = ringkasan(), nama = (S.profil ? S.profil.nama : "siswa").replace(/[^\w-]+/g, "_");
   const blob = new Blob([JSON.stringify(r, null, 1)], {type:"application/json"});
   const a = document.createElement("a"); a.href = URL.createObjectURL(blob);
@@ -1275,22 +1439,24 @@ $("kUnduh").onclick = () => {
   document.body.appendChild(a); a.click(); a.remove();
   setTimeout(() => URL.revokeObjectURL(a.href), 2000);
 };
-$("kSalin").onclick = async () => {
+$("mSalin").onclick = async () => {
   const r = ringkasan();
   const teks = `Laporan TITEN KURIKULUM\n${r.profil ? r.profil.nama + " (" + r.profil.kelas + ")" : ""}\nModul lulus: ${r.modulLulus}/${r.jumlahModul}\nRata-rata kuis: ${r.rataKuis ?? "-"}\nSkor disiplin: ${r.disiplin ?? "-"}\nTransaksi: ${r.jurnal.length}\nReturn simulasi: ${pct(r.returnPersen)}`;
-  try{ await navigator.clipboard.writeText(teks); $("kSalinOk").textContent = "Tersalin. Tempel di WhatsApp."; }
+  try{ await navigator.clipboard.writeText(teks); $("mSalinKet").textContent = "Tersalin ✓"; setTimeout(() => $("mSalinKet").textContent = "›", 2500); }
   catch(e){ prompt("Salin teks ini:", teks); }
 };
-$("kUbahProfil").onclick = () => {
+$("mProfil").onclick = () => {
   if (S.profil){ $("pNama").value = S.profil.nama; $("pKelas").value = S.profil.kelas; $("pSekolah").value = S.profil.sekolah || ""; }
   buka("lyProfil");
 };
-$("kReset").onclick = () => {
+$("mReset").onclick = () => {
   if (!confirm("Mulai ulang simulasi? Kas kembali Rp100 juta, portofolio dan jurnal dihapus. Kemajuan belajar tetap.")) return;
   S.sim = {kas:MODAL, posisi:{}, jurnal:[], rencana:null}; simpan(); gambarHeader(); gambarLaporan();
 };
+$("mTema").onclick = () => { S.tema = S.tema === "terang" ? "gelap" : "terang"; simpan(); pasangTema(); gambarLaporan(); };
+$("mGuru").onclick = () => { if (S.guru) { $("kartuGuru").scrollIntoView({behavior:"smooth"}); return; } $("kartuKode").classList.toggle("sembunyi"); };
 $("kMasukGuru").onclick = () => {
-  if ($("kKodeGuru").value === KODE_GURU){ S.guru = true; simpan(); $("kKodeGuru").value = ""; gambarLaporan(); }
+  if ($("kKodeGuru").value === KODE_GURU){ S.guru = true; simpan(); $("kKodeGuru").value = ""; $("kartuKode").classList.add("sembunyi"); $("kGuruKet").textContent = ""; gambarLaporan(); }
   else $("kGuruKet").textContent = "Kode salah.";
 };
 $("gKeluar").onclick = () => { S.guru = false; S.bukaSemua = false; simpan(); gambarLaporan(); };
@@ -1314,26 +1480,24 @@ function gambarKelas(){
   $("gWadah").classList.toggle("sembunyi", !laporanSiswa.length);
   const tb = $("tKelas").tBodies[0];
   const urut = laporanSiswa.slice().sort((a,b) => (b.disiplin??-1) - (a.disiplin??-1));
-  tb.innerHTML = urut.map((r,n) => `<tr class="klik" data-n="${laporanSiswa.indexOf(r)}"><td>${esc(r.profil.nama)}<div class="redup" style="font-size:11.5px">${esc(r.profil.kelas)}</div></td><td>${r.disiplin ?? "–"}</td>
+  tb.innerHTML = urut.map(r => `<tr data-n="${laporanSiswa.indexOf(r)}"><td>${esc(r.profil.nama)}<div class="redup" style="font-size:11.5px">${esc(r.profil.kelas)}</div></td><td>${r.disiplin ?? "–"}</td>
     <td>${r.modulLulus}</td><td>${r.rataKuis ?? "–"}</td><td>${r.jurnal.length}</td><td class="${r.returnPersen>=0?"naik":"turun"}">${pct(r.returnPersen)}</td></tr>`).join("");
   tb.querySelectorAll("tr").forEach(tr => tr.onclick = () => {
     const r = laporanSiswa[+tr.dataset.n];
-    $("gDetail").innerHTML = `<div class="kartu" style="margin:0"><h3>${esc(r.profil.nama)} · ${esc(r.profil.kelas)}</h3>
-      <div class="redup">Laporan dibuat ${fmtTgl(r.dibuat.slice(0,10))} · harga per ${fmtTgl(r.tanggalHarga)} · kuis per modul: ${r.kuis.map(v => v ?? "–").join(" / ")}</div>${htmlJurnal(r.jurnal)}</div>`;
+    $("gDetail").innerHTML = `<div style="margin-top:12px"><b>${esc(r.profil.nama)} · ${esc(r.profil.kelas)}</b>
+      <div class="redup">Laporan ${fmtTgl(r.dibuat.slice(0,10))} · harga per ${fmtTgl(r.tanggalHarga)} · kuis per modul: ${r.kuis.map(v => v ?? "–").join(" / ")}</div></div>
+      <div style="margin:0 -14px">${htmlJurnal(r.jurnal)}</div>`;
     $("gDetail").scrollIntoView({behavior:"smooth"});
   });
 }
-
-/* ===================================================================
-   TABEL BISA DIURUTKAN (judul kolom beku lewat CSS sticky)
-   =================================================================== */
+// tabel bisa diurutkan (kepala kolom beku lewat CSS sticky)
 document.querySelectorAll("table.urut").forEach(tb => {
   tb.querySelectorAll("th").forEach((th, i) => th.onclick = () => {
     const naik = !th.classList.contains("urut-naik");
     tb.querySelectorAll("th").forEach(x => x.classList.remove("urut-naik","urut-turun"));
     th.classList.add(naik ? "urut-naik" : "urut-turun");
     const isAngka = th.dataset.t === "n";
-    const nil = tr => { const v = tr.children[i].textContent.replace("⚠","").trim(); if (!isAngka) return v; let kali = 1; if (/ M$/.test(v)) kali = 1e9; else if (/ Jt$/.test(v)) kali = 1e6; const x = parseFloat(v.replace(/ (M|Jt)$/,"").replace(/\./g,"").replace(",",".").replace("%","").replace("+","")) * kali; return isNaN(x) ? -Infinity : x; };
+    const nil = tr => { const v = tr.children[i].textContent.trim(); if (!isAngka) return v; const x = parseFloat(v.replace(/\./g,"").replace(",",".").replace("%","").replace("+","")); return isNaN(x) ? -Infinity : x; };
     const rows = [...tb.tBodies[0].rows].sort((a,b) => { const x = nil(a), y = nil(b); const c = isAngka ? x - y : x.localeCompare(y, "id"); return naik ? c : -c; });
     rows.forEach(r => tb.tBodies[0].appendChild(r));
   });
